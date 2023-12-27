@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:snaptune/db/model.dart';
 import 'package:snaptune/splashscreen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main(){
+Future<void>main()async{
+  await Hive.initFlutter();
+  if(!Hive.isAdapterRegistered(MusicModelAdapter().typeId)) {
+    Hive.registerAdapter(MusicModelAdapter());
+  }
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {

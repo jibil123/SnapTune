@@ -3,15 +3,19 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:snaptune/sceens/albumscreen.dart';
+import 'package:snaptune/sceens/navigator.visible.dart';
 
 class MainHomeScreen extends StatefulWidget {
-  MainHomeScreen({super.key});
+
+  MainHomeScreen({super.key, });
 
   @override
   State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+
+
   @override
   void initState() {
     super.initState();
@@ -77,7 +81,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                         fontWeight: FontWeight.bold)),
               ),
               SizedBox(
-                height: _mediaquery.size.height * 0.015,
+                height: _mediaquery.size.height *0.015,
               ),
               Divider(),
               Expanded(
@@ -101,18 +105,23 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                             subtitle: Text("${item.data![index].artist}"),
                             trailing: Icon(Icons.more_horiz),
                             onTap: () {
+                              VisibilityNav.isvisible=true;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
                                             audioPlayer: _audioPlayer,
-                                          )));
+                                 )
+                               )
+                              );
                             },
                           ),
                           itemCount: item.data!.length,
                         );
-                      })),
+                      }
+                    )
+                  ),
             ],
           ),
         ),

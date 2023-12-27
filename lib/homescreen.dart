@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/sceens/library.dart';
 import 'package:snaptune/sceens/main.home.dart';
+import 'package:snaptune/sceens/navigator.visible.dart';
 import 'package:snaptune/sceens/search.dart';
 import 'package:snaptune/sceens/settings.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+   HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  bool isContainerVisible=false;
+
 
   List Pages=[
     MainHomeScreen(),
@@ -30,13 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
       
       bottomNavigationBar: Stack(alignment: Alignment.bottomCenter,
         children: [
-          InkWell(onTap: () {
-            
+          InkWell(onTap: () {  
+      
           },
-            child: Visibility(
-              visible: true,
+            child: Visibility(    
+              visible: VisibilityNav.isvisible,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 70),
+                padding: const EdgeInsets.only(bottom: 60),
                 child: Container(
                   width:_mediaquery.size.width*0.90,
                   height: _mediaquery.size.height *0.09,
@@ -72,6 +76,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 }
