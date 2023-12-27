@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
+import 'package:snaptune/db/model.dart';
+import 'package:snaptune/provider/provider.dart';
 
 class AlbumScreen extends StatefulWidget {
   AlbumScreen({super.key, required this.songModel, required this.audioPlayer});
-  final SongModel songModel;
+  final MusicModel songModel;
   final AudioPlayer audioPlayer;
 
   @override
@@ -14,11 +17,11 @@ class AlbumScreen extends StatefulWidget {
 class _AlbumScreenState extends State<AlbumScreen> {
   Duration _duration = const Duration();
   Duration _position = const Duration();
+  
   bool _isPlaying = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     playsong();
   }
@@ -26,7 +29,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
   void playsong() {
     try {
       widget.audioPlayer.setAudioSource(AudioSource.uri(
-        Uri.parse(widget.songModel.uri!),
+        Uri.parse(widget.songModel.uri),
       ));
       widget.audioPlayer.play();
       _isPlaying = true;
@@ -67,15 +70,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
             )),
             Padding(
               padding: EdgeInsets.only(top: _mediaquery.size.height * 0.07),
-              child: Center(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image(
-                      image: AssetImage(
-                        'assets/images/Billie-Eilish-Happier-Than-Ever.webp',
-                      ),
-                    )),
-              ),
+              child:const Center(
+                  child:  ArtWorkWidget()),
             ),
             SizedBox(
               height: _mediaquery.size.height * 0.09,
@@ -86,7 +82,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                 Container(
                   width: _mediaquery.size.width * 0.7,
                   child: Text(
-                    widget.songModel.displayNameWOExt,
+                    widget.songModel.name,
                     maxLines: 1,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
@@ -186,5 +182,23 @@ class _AlbumScreenState extends State<AlbumScreen> {
   void changetoseconds(int seconds) {
     Duration duration = Duration(seconds: seconds);
     widget.audioPlayer.seek(duration);
+  }
+}
+
+class ArtWorkWidget extends StatelessWidget {
+  const ArtWorkWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return QueryArtworkWidget(
+                    id: context.watch<songModelProvider>().id,
+                    type: ArtworkType.AUDIO,
+                    nullArtworkWidget: Icon(Icons.music_note, size: 330,),
+                    artworkHeight: 330,
+                    artworkWidth: 330,
+                    artworkFit: BoxFit.cover,
+                  );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:snaptune/db/model.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/splashscreen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,7 +10,10 @@ Future<void>main()async{
   if(!Hive.isAdapterRegistered(MusicModelAdapter().typeId)) {
     Hive.registerAdapter(MusicModelAdapter());
   }
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (context)=>songModelProvider(),
+    child: const MyApp(),)
+  );
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

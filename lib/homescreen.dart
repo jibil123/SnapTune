@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: Stack(alignment: Alignment.bottomCenter,
         children: [
           InkWell(onTap: () {  
-      
+            
           },
             child: Visibility(    
               visible: VisibilityNav.isvisible,

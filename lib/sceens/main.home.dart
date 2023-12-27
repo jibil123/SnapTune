@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
+import 'package:snaptune/db/functions.dart';
+import 'package:snaptune/db/model.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/sceens/albumscreen.dart';
 import 'package:snaptune/sceens/navigator.visible.dart';
 
-class MainHomeScreen extends StatefulWidget {
+final AudioPlayer _audioPlayer = AudioPlayer();
 
-  MainHomeScreen({super.key, });
+class MainHomeScreen extends StatefulWidget {
+  MainHomeScreen({
+    super.key,
+  });
 
   @override
   State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -24,7 +29,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 
   final OnAudioQuery _onAudioQuery = OnAudioQuery();
-  final AudioPlayer _audioPlayer = AudioPlayer();
 
   void playsong(String? uri) {
     try {
@@ -35,6 +39,16 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     } on Exception {
       print('object');
     }
+  }
+
+  Future<List<MusicModel>> fetchsongtodb() async {
+    List<SongModel> songList = await _onAudioQuery.querySongs(
+        sortType: null,
+        ignoreCase: true,
+        orderType: OrderType.ASC_OR_SMALLER,
+        uriType: UriType.EXTERNAL);
+    addSong(song: songList);
+    return getAllSongs();
   }
 
   @override
@@ -81,16 +95,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                         fontWeight: FontWeight.bold)),
               ),
               SizedBox(
-                height: _mediaquery.size.height *0.015,
+                height: _mediaquery.size.height * 0.015,
               ),
               Divider(),
               Expanded(
-                  child: FutureBuilder<List<SongModel>>(
-                      future: _onAudioQuery.querySongs(
-                          sortType: null,
-                          ignoreCase: true,
-                          orderType: OrderType.ASC_OR_SMALLER,
-                          uriType: UriType.EXTERNAL),
+                  child: FutureBuilder<List<MusicModel>>(
+                      future: fetchsongtodb(),
                       builder: (context, item) {
                         if (item.data == null) {
                           return Center(child: CircularProgressIndicator());
@@ -100,28 +110,31 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                         }
                         return ListView.builder(
                           itemBuilder: (context, index) => ListTile(
-                            leading: Icon(Icons.music_note),
-                            title: Text(item.data![index].displayNameWOExt),
+                            leading: QueryArtworkWidget(
+                              id: item.data![index].id,
+                              type: ArtworkType.AUDIO,
+                              nullArtworkWidget: Icon(Icons.music_note),
+                            ),
+                            title: Text(item.data![index].name),
                             subtitle: Text("${item.data![index].artist}"),
                             trailing: Icon(Icons.more_horiz),
                             onTap: () {
-                              VisibilityNav.isvisible=true;
+                              context
+                                  .read<songModelProvider>()
+                                  .setId(item.data![index].id);
+                              VisibilityNav.isvisible = true;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
                                             audioPlayer: _audioPlayer,
-                                 )
-                               )
-                              );
+                                          )));
                             },
                           ),
                           itemCount: item.data!.length,
                         );
-                      }
-                    )
-                  ),
+                      })),
             ],
           ),
         ),

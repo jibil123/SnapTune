@@ -17,7 +17,7 @@ class MusicModelAdapter extends TypeAdapter<MusicModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MusicModel(
-      id: fields[0] as String,
+      id: fields[0] as int,
       name: fields[1] as String,
       artist: fields[2] as String,
       uri: fields[3] as String,
