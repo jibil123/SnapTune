@@ -9,7 +9,7 @@ import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/sceens/albumscreen.dart';
 import 'package:snaptune/sceens/navigator.visible.dart';
 
-final AudioPlayer _audioPlayer = AudioPlayer();
+final AudioPlayer audioPlayer = AudioPlayer();
 
 class MainHomeScreen extends StatefulWidget {
   MainHomeScreen({
@@ -27,27 +27,28 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     // request permission
     Permission.storage.request();
   }
+  
 
   final OnAudioQuery _onAudioQuery = OnAudioQuery();
 
   void playsong(String? uri) {
     try {
-      _audioPlayer.setAudioSource(AudioSource.uri(
+      audioPlayer.setAudioSource(AudioSource.uri(
         Uri.parse(uri ?? ""),
       ));
-      _audioPlayer.play();
+      audioPlayer.play();
     } on Exception {
       print('object');
     }
   }
-
+  
   Future<List<MusicModel>> fetchsongtodb() async {
     List<SongModel> songList = await _onAudioQuery.querySongs(
         sortType: null,
         ignoreCase: true,
         orderType: OrderType.ASC_OR_SMALLER,
         uriType: UriType.EXTERNAL);
-    addSong(song: songList);
+      addSong(song: songList);
     return getAllSongs();
   }
 
@@ -86,8 +87,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               SizedBox(
                 height: _mediaquery.size.height * 0.015,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
+              const Padding(
+                padding:  EdgeInsets.only(left: 20),
                 child: Text('All Songs',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
@@ -113,7 +114,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                             leading: QueryArtworkWidget(
                               id: item.data![index].id,
                               type: ArtworkType.AUDIO,
-                              nullArtworkWidget: Icon(Icons.music_note),
+                              nullArtworkWidget: Image(image: AssetImage('assets/images/leadingImage.png')),
                             ),
                             title: Text(item.data![index].name),
                             subtitle: Text("${item.data![index].artist}"),
@@ -128,13 +129,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
-                                            audioPlayer: _audioPlayer,
+                                            audioPlayer: audioPlayer,
                                           )));
                             },
                           ),
                           itemCount: item.data!.length,
                         );
-                      })),
+                  }
+                  )),
             ],
           ),
         ),
