@@ -18,3 +18,6 @@ class MusicModel {
       required this.artist,
       required this.uri});
 }
+
+
+

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/sceens/library.dart';
 import 'package:snaptune/sceens/main.home.dart';
-import 'package:snaptune/sceens/navigator.visible.dart';
 import 'package:snaptune/sceens/search.dart';
 import 'package:snaptune/sceens/settings.dart';
 
@@ -34,27 +33,27 @@ class _HomeScreenState extends State<HomeScreen> {
       
       bottomNavigationBar: Stack(alignment: Alignment.bottomCenter,
         children: [
-          InkWell(onTap: () {  
+          // InkWell(onTap: () {  
             
-          },
-            child: Visibility(    
-              visible: VisibilityNav.isvisible,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 60),
-                child: Container(
-                  width:_mediaquery.size.width*0.90,
-                  height: _mediaquery.size.height *0.09,
-                  decoration: BoxDecoration(color: Color.fromARGB(255, 101, 89, 89),borderRadius: BorderRadius.circular(20)),
-                  child: ListTile(
-                    leading: Image(image: AssetImage('assets/images/Billie-Eilish-Happier-Than-Ever.webp')),
-                    title: Text('Everything I Wanted'),
-                    subtitle: Text('Bellie Eilish'),
-                    trailing: Icon(Icons.pause,size: 50,),
-                  )
-                ),
-              ),
-            ),
-          ),
+          // },
+          //   child: Visibility(    
+          //     visible: VisibilityNav.isvisible,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(bottom: 60),
+          //       child: Container(
+          //         width:_mediaquery.size.width*0.90,
+          //         height: _mediaquery.size.height *0.09,
+          //         decoration: BoxDecoration(color: Color.fromARGB(255, 101, 89, 89),borderRadius: BorderRadius.circular(20)),
+          //         child: ListTile(
+          //           leading: Image(image: AssetImage('assets/images/Billie-Eilish-Happier-Than-Ever.webp')),
+          //           title: Text('Everything I Wanted'),
+          //           subtitle: Text('Bellie Eilish'),
+          //           trailing: Icon(Icons.pause,size: 50,),
+          //         )
+          //       ),
+          //     ),
+          //   ),
+          // ),
           BottomNavigationBar(
             showUnselectedLabels: true,  
             selectedItemColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
@@ -43,15 +44,20 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
   
   Future<List<MusicModel>> fetchsongtodb() async {
+  // Fetch songs only if the database is empty
+  final songDB = await Hive.openBox<MusicModel>('Song_Model');
+  if (songDB.isEmpty) {
     List<SongModel> songList = await _onAudioQuery.querySongs(
-        sortType: null,
-        ignoreCase: true,
-        orderType: OrderType.ASC_OR_SMALLER,
-        uriType: UriType.EXTERNAL);
-      addSong(song: songList);
-    return getAllSongs();
+      sortType: null,
+      ignoreCase: true,
+      orderType: OrderType.ASC_OR_SMALLER,
+      uriType: UriType.EXTERNAL,
+    );
+    addSong(song: songList);
   }
 
+  return getAllSongs();
+}
   @override
   Widget build(BuildContext context) {
     var _mediaquery = MediaQuery.of(context);
@@ -61,19 +67,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: [ const
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding:  EdgeInsets.only(left: 15),
                     child: Icon(
                       Icons.music_note,
                       size: 40,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 15),
+                    padding:  EdgeInsets.only(right: 15),
                     child: Text(
                       'Enjoy  your own  music',
                       style: TextStyle(
@@ -110,15 +116,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                           return Text('song not found');
                         }
                         return ListView.builder(
-                          itemBuilder: (context, index) => ListTile(
+                          itemCount: item.data!.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
                             leading: QueryArtworkWidget(
                               id: item.data![index].id,
                               type: ArtworkType.AUDIO,
                               nullArtworkWidget: Image(image: AssetImage('assets/images/leadingImage.png')),
                             ),
-                            title: Text(item.data![index].name),
-                            subtitle: Text("${item.data![index].artist}"),
-                            trailing: Icon(Icons.more_horiz),
+                            title: Text(item.data![index].name,maxLines: 1,overflow: TextOverflow.fade,),
+                            subtitle: Text("${item.data![index].artist}",maxLines: 1,overflow: TextOverflow.fade),  
+                            trailing:IconButton(onPressed: (){
+
+                            }, icon: Icon(Icons.more_horiz)),
                             onTap: () {
                               context
                                   .read<songModelProvider>()
@@ -130,10 +140,13 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
                                             audioPlayer: audioPlayer,
-                                          )));
+                                          )
+                                        ));
                             },
-                          ),
-                          itemCount: item.data!.length,
+                          );
+                          
+                          } 
+                          
                         );
                   }
                   )),
