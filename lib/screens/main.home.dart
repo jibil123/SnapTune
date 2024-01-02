@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:snaptune/db/functions.dart';
 import 'package:snaptune/db/model.dart';
 import 'package:snaptune/provider/provider.dart';
-import 'package:snaptune/sceens/albumscreen.dart';
-import 'package:snaptune/sceens/navigator.visible.dart';
+import 'package:snaptune/screens/albumscreen.dart';
+import 'package:snaptune/screens/navigator.visible.dart';
 
 final AudioPlayer audioPlayer = AudioPlayer();
 
@@ -104,7 +104,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               SizedBox(
                 height: _mediaquery.size.height * 0.015,
               ),
-              Divider(),
+              const Divider(),
               Expanded(
                   child: FutureBuilder<List<MusicModel>>(
                       future: fetchsongtodb(),
@@ -128,7 +128,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                             subtitle: Text("${item.data![index].artist}",maxLines: 1,overflow: TextOverflow.fade),  
                             trailing:IconButton(onPressed: (){
 
-                            }, icon: Icon(Icons.more_horiz)),
+                            }, icon: Icon(Icons.play_arrow_rounded,size: 40,)),
                             onTap: () {
                               context
                                   .read<songModelProvider>()
@@ -139,7 +139,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
-                                            audioPlayer: audioPlayer,
+                                            audioPlayer: audioPlayer, musicModel: item.data![index],
                                           )
                                         ));
                             },

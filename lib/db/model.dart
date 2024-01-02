@@ -19,5 +19,12 @@ class MusicModel {
       required this.uri});
 }
 
+@HiveType(typeId: 2)
+class LikedSongModel extends HiveObject{
 
-
+  @HiveField(0)
+  int id;
+  LikedSongModel({
+    required this.id
+  });
+}

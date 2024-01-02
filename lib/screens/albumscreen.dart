@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
+import 'package:snaptune/db/functions.dart';
 import 'package:snaptune/db/model.dart';
 import 'package:snaptune/provider/provider.dart';
 
 class AlbumScreen extends StatefulWidget {
-  AlbumScreen({super.key, required this.songModel, required this.audioPlayer});
+  AlbumScreen(
+      {super.key,
+      required this.songModel,
+      required this.audioPlayer,
+      required this.musicModel});
+
+
   final MusicModel songModel;
   final AudioPlayer audioPlayer;
+
+  MusicModel musicModel;
 
   @override
   State<AlbumScreen> createState() => _AlbumScreenState();
@@ -17,7 +26,7 @@ class AlbumScreen extends StatefulWidget {
 class _AlbumScreenState extends State<AlbumScreen> {
   Duration _duration = const Duration();
   Duration _position = const Duration();
-  
+
   bool _isPlaying = false;
 
   @override
@@ -70,8 +79,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
             )),
             Padding(
               padding: EdgeInsets.only(top: _mediaquery.size.height * 0.07),
-              child:const Center(
-                  child:  ArtWorkWidget()),
+              child: const Center(child: ArtWorkWidget()),
             ),
             SizedBox(
               height: _mediaquery.size.height * 0.09,
@@ -90,7 +98,30 @@ class _AlbumScreenState extends State<AlbumScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Icon(Icons.favorite, size: _mediaquery.size.height * 0.05),
+                Container(
+                    child: favSongs.contains(widget.musicModel.id)
+                        ? IconButton(
+                            onPressed: () {
+                              removeLikedSongs(widget.musicModel.id);
+                              ifLickedSongs();
+                              setState(() {});
+                            },
+                            icon:const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            ),
+                          )
+                        : IconButton(
+                            onPressed: () {
+                              addLikedSongs(widget.musicModel.id);
+                              ifLickedSongs();
+                              setState(() {});
+                            },
+                            icon: Icon(
+                              Icons.favorite_border,
+                              color: Colors.red,
+                            ),
+                          ))
               ],
             ),
             Row(
@@ -107,10 +138,13 @@ class _AlbumScreenState extends State<AlbumScreen> {
                     style: TextStyle(fontSize: _mediaquery.size.height * 0.025),
                   ),
                 ),
-                Icon(
-                  Icons.library_add,
-                  size: _mediaquery.size.height * 0.05,
-                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.library_add,
+                    size: _mediaquery.size.height * 0.04,
+                  ),
+                )
               ],
             ),
             Row(
@@ -193,12 +227,15 @@ class ArtWorkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryArtworkWidget(
-                    id: context.watch<songModelProvider>().id,
-                    type: ArtworkType.AUDIO,
-                    nullArtworkWidget: Icon(Icons.music_note, size: 330,),
-                    artworkHeight: 330,
-                    artworkWidth: 330,
-                    artworkFit: BoxFit.cover,
-                  );
+      id: context.watch<songModelProvider>().id,
+      type: ArtworkType.AUDIO,
+      nullArtworkWidget:const Icon(
+        Icons.music_note,
+        size: 330,
+      ),
+      artworkHeight: 330,
+      artworkWidth: 330,
+      artworkFit: BoxFit.cover,
+    );
   }
 }

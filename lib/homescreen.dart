@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:snaptune/sceens/library.dart';
-import 'package:snaptune/sceens/main.home.dart';
-import 'package:snaptune/sceens/search.dart';
-import 'package:snaptune/sceens/settings.dart';
+import 'package:snaptune/screens/Library/library.dart';
+import 'package:snaptune/screens/main.home.dart';
+import 'package:snaptune/screens/search.dart';
+import 'package:snaptune/screens/settings.dart';
 
 
 class HomeScreen extends StatefulWidget {

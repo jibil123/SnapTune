@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:snaptune/db/functions.dart';
 import 'package:snaptune/db/model.dart';
 import 'package:snaptune/provider/provider.dart';
-import 'package:snaptune/sceens/albumscreen.dart';
-import 'package:snaptune/sceens/main.home.dart';
-import 'package:snaptune/sceens/navigator.visible.dart';
+import 'package:snaptune/screens/albumscreen.dart';
+import 'package:snaptune/screens/main.home.dart';
+import 'package:snaptune/screens/navigator.visible.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -33,6 +33,8 @@ class _SearchScreenState extends State<SearchScreen> {
     findmusic = List.from(allSongs);
     setState(() {});
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       overflow: TextOverflow.fade,
                     ),
                     trailing: IconButton(onPressed: (){
-                        
+                            ShowBottomSheet(context);
                             }, icon: Icon(Icons.more_horiz)),
                     onTap: () {
                       context
@@ -107,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           builder: (context) => AlbumScreen(
                             songModel: findmusic[index],
                             audioPlayer: audioPlayer,
+                            musicModel: findmusic[index],
                           ),
                         ),
                       );
@@ -132,6 +135,52 @@ class _SearchScreenState extends State<SearchScreen> {
 
     setState(() {
       findmusic = suggestion;
+    });
+  }
+
+  Future<void>ShowBottomSheet(BuildContext ctx)async{
+    showModalBottomSheet(context: context, builder: (context1){
+      return Container(
+        height: 220,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.brown,borderRadius: BorderRadius.circular(25)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left:15,right: 15),
+          child: Column(
+            children: [
+              IconButton(onPressed: (){
+                Navigator.pop(context);
+              }, icon:const Icon(Icons.arrow_downward,size: 40),),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Add to Favourite Songs',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                  IconButton(onPressed: (){
+          
+                  }, icon: Icon(Icons.favorite,size: 30,)),
+                ],
+              ),
+               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                  IconButton(onPressed: (){
+          
+                  }, icon:const Icon(Icons.library_add,size: 30,)),
+                ],
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('View in Album',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                  IconButton(onPressed: (){
+          
+                  }, icon:const Icon(Icons.album,size: 30,)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
     });
   }
 }
