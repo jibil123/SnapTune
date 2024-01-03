@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/functions.dart';
 import 'package:snaptune/screens/albumscreen.dart';
@@ -14,7 +15,6 @@ class FavoriteSongs extends StatefulWidget {
 class _FavoriteSongsState extends State<FavoriteSongs> {
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,7 +27,7 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,12 +46,13 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                     builder: (context, items) {
                       if (items.data == null) {
                         return const Center(
-                          child:  CircularProgressIndicator(),
+                          child: CircularProgressIndicator(),
                         );
                       } else if (items.data!.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            "Add Songs",
+                            "Add Favourite Songs",
+                            style: GoogleFonts.abyssinicaSil(fontSize: 30)
                           ),
                         );
                       } else {
@@ -59,55 +60,57 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                             itemCount: items.data!.length,
                             itemBuilder: (context, index) {
                               return ListTile(
-                                  leading: QueryArtworkWidget(
-                                    id: items.data![index].id,
-                                    type: ArtworkType.AUDIO,
-                                    nullArtworkWidget: const Image(
-                                      image: AssetImage(
-                                          'assets/images/leadingImage.png'),
-                                    ),
+                                leading: QueryArtworkWidget(
+                                  id: items.data![index].id,
+                                  type: ArtworkType.AUDIO,
+                                  nullArtworkWidget: const Image(
+                                    image: AssetImage(
+                                        'assets/images/leadingImage.png'),
                                   ),
-                                  title: Text(
-                                    items.data![index]
-                                        .name, // Use 'name' instead of 'songname'
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                  ),
-                                  subtitle: Text(
-                                    items.data![index].artist,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                  ),
-                                  trailing:
-                                      favSongs.contains(items.data![index].id)
-                                          ? IconButton(
-                                              onPressed: () {
-                                                removeLikedSongs(
-                                                    items.data![index].id);
-                                                ifLickedSongs();
-                                                setState(() {});
-                                              },
-                                              icon:const Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              ),
-                                            )
-                                          : IconButton(
-                                              onPressed: () {
-                                                addLikedSongs(
-                                                    items.data![index].id);
-                                                ifLickedSongs();
-                                                setState(() {});
-                                              },
-                                              icon:const Icon(
-                                                Icons.favorite,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          onTap: () {
-                                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AlbumScreen(songModel:items.data! [index], audioPlayer: audioPlayer, musicModel: items.data![index])));
-                                          },
-                                        );
+                                ),
+                                title: Text(
+                                  items.data![index].name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                ),
+                                subtitle: Text(
+                                  items.data![index].artist,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                ),
+                                trailing: favSongs
+                                        .contains(items.data![index].id)
+                                    ? IconButton(
+                                        onPressed: () {
+                                          removeLikedSongs(
+                                              items.data![index].id);
+                                          ifLickedSongs();
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        ),
+                                      )
+                                    : IconButton(
+                                        onPressed: () {
+                                          addLikedSongs(items.data![index].id);
+                                          ifLickedSongs();
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AlbumScreen(
+                                            songModel: items.data![index],
+                                            audioPlayer: audioPlayer,
+                                          )));
+                                },
+                              );
                             });
                       }
                     }))

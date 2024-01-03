@@ -26,6 +26,7 @@ Future<List<MusicModel>> getAllSongs() async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
   return songDB.values.toList();
 }
+
 // end songfetch,add and show 
 
 
@@ -62,6 +63,7 @@ Future<List<MusicModel>>showLikedSongs()async{
 
   List<MusicModel>song=await getAllSongs();
 
+  
   for(int i=0;i<song.length;i++){
     for(int j=0;j<box.length;j++){
       if(box.values.toList()[j].id==song[i].id){
@@ -71,3 +73,7 @@ Future<List<MusicModel>>showLikedSongs()async{
   }
   return likedSongs;
 }
+
+  // end of likedsongs
+
+

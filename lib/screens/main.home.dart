@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -67,7 +68,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [ const
+            children: [ 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -79,30 +80,27 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding:  EdgeInsets.only(right: 15),
+                    padding:  EdgeInsets.only(right: 30),
                     child: Text(
                       'Enjoy  your own  music',
-                      style: TextStyle(
-                          fontSize: 26,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.pacifico(
+                        fontSize: _mediaquery.size.height*0.031,
+                      ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: _mediaquery.size.height * 0.015,
+                height: _mediaquery.size.height * 0.015
               ),
-              const Padding(
+               Padding(
                 padding:  EdgeInsets.only(left: 20),
                 child: Text('All Songs',
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(
-                height: _mediaquery.size.height * 0.015,
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 22.5,
+                      fontWeight: FontWeight.bold
+                    )
+                    ),
               ),
               const Divider(),
               Expanded(
@@ -110,10 +108,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       future: fetchsongtodb(),
                       builder: (context, item) {
                         if (item.data == null) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                         if (item.data!.isEmpty) {
-                          return Text('song not found');
+                          return const Text('song not found');
                         }
                         return ListView.builder(
                           itemCount: item.data!.length,
@@ -122,7 +120,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                             leading: QueryArtworkWidget(
                               id: item.data![index].id,
                               type: ArtworkType.AUDIO,
-                              nullArtworkWidget: Image(image: AssetImage('assets/images/leadingImage.png')),
+                              nullArtworkWidget:const Image(image: AssetImage('assets/images/leadingImage.png')),
                             ),
                             title: Text(item.data![index].name,maxLines: 1,overflow: TextOverflow.fade,),
                             subtitle: Text("${item.data![index].artist}",maxLines: 1,overflow: TextOverflow.fade),  
@@ -139,7 +137,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: item.data![index],
-                                            audioPlayer: audioPlayer, musicModel: item.data![index],
+                                            audioPlayer: audioPlayer,
                                           )
                                         ));
                             },
