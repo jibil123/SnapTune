@@ -76,4 +76,11 @@ Future<List<MusicModel>>showLikedSongs()async{
 
   // end of likedsongs
 
+  // Future<void>addPlaylist(String name)async{
+  //  final playlistDB=Hive.openBox<PlaylistSongModel>('playlist');
+  //  final songs=PlaylistSongModel(name: name, playlistmodel: playlistSong);
+  //  await playlistDB.
+
+  // }
+
 

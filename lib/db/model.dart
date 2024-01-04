@@ -28,3 +28,18 @@ class LikedSongModel extends HiveObject{
     required this.id
   });
 }
+
+
+// @HiveType(typeId: 3)
+// class PlaylistSongModel {
+
+//   @HiveField(0)
+//   String name;
+//   @HiveField(1)
+//   List playlistmodel=[];
+
+//   PlaylistSongModel({
+//     required this.name,
+//     required this.playlistmodel,
+//   });
+// }

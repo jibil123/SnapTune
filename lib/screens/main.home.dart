@@ -70,7 +70,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 15),
                     child: Icon(
                       Icons.music_note,
@@ -105,7 +105,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       future: fetchsongtodb(),
                       builder: (context, item) {
                         if (item.data == null) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                         if (item.data!.isEmpty) {
                           return const Text('song not found');
@@ -117,8 +118,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                               leading: QueryArtworkWidget(
                                 id: item.data![index].id,
                                 type: ArtworkType.AUDIO,
-                                nullArtworkWidget:
-                                    const Image(image: AssetImage('assets/images/leadingImage.png')),
+                                nullArtworkWidget: const Image(
+                                    image: AssetImage(
+                                        'assets/images/leadingImage.png')),
                               ),
                               title: Text(
                                 item.data![index].name,
@@ -132,16 +134,18 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                               ),
                               trailing: IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.play_arrow_rounded,
                                     size: 40,
                                   )),
                               onTap: () {
                                 setState(() {
-                                  context.read<songModelProvider>().setId(item.data![index].id);
-                                VisibilityNav.isvisible = true;
+                                  context
+                                      .read<songModelProvider>()
+                                      .setId(item.data![index].id);
+                                  VisibilityNav.isvisible = true;
                                 });
-                                
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -164,4 +168,3 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     );
   }
 }
-
