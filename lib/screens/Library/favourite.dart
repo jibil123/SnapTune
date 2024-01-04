@@ -108,6 +108,7 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                                       builder: (context) => AlbumScreen(
                                             songModel: items.data![index],
                                             audioPlayer: audioPlayer,
+                                            allsong: items.data!,
                                           )));
                                 },
                               );

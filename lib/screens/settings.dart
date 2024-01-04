@@ -5,7 +5,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(child: 
       Padding(
         padding: const EdgeInsets.only(top: 10,left: 15,right: 15),
@@ -35,8 +35,15 @@ class SettingScreen extends StatelessWidget {
             SizedBox(height: 20,),
              Row(
               children: [
-                Icon(Icons.policy_outlined,size: 40,),
+                Icon(Icons.private_connectivity_outlined,size: 40,),
                 Text(' Privacy & Policy',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic)),
+              ],
+            ),
+            SizedBox(height: 20),
+             Row(
+              children: [
+                Icon(Icons.policy,size: 40,),
+                Text(' Terms And Conditions',style: TextStyle(fontSize: 30)),
               ],
             ),
             SizedBox(height: 20),

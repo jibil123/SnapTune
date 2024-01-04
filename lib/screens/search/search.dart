@@ -105,6 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           builder: (context) => AlbumScreen(
                             songModel: findmusic[index],
                             audioPlayer: audioPlayer,
+                            allsong:allSongs,
                           ),
                         ),
                       );
@@ -228,7 +229,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => AlbumScreen(
                                 songModel: music,
-                                audioPlayer: audioPlayer)));
+                                audioPlayer: audioPlayer,
+                                allsong: allSongs,
+                                )));
                       },
                       icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

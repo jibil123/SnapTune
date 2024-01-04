@@ -26,10 +26,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   void initState() {
     super.initState();
-    // request permission
     Permission.storage.request();
   }
-  
 
   final OnAudioQuery _onAudioQuery = OnAudioQuery();
 
@@ -43,22 +41,22 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       print('object');
     }
   }
-  
+
   Future<List<MusicModel>> fetchsongtodb() async {
-  // Fetch songs only if the database is empty
-  final songDB = await Hive.openBox<MusicModel>('Song_Model');
-  if (songDB.isEmpty) {
-    List<SongModel> songList = await _onAudioQuery.querySongs(
-      sortType: null,
-      ignoreCase: true,
-      orderType: OrderType.ASC_OR_SMALLER,
-      uriType: UriType.EXTERNAL,
-    );
-    addSong(song: songList);
+    final songDB = await Hive.openBox<MusicModel>('Song_Model');
+    if (songDB.isEmpty) {
+      List<SongModel> songList = await _onAudioQuery.querySongs(
+        sortType: null,
+        ignoreCase: true,
+        orderType: OrderType.ASC_OR_SMALLER,
+        uriType: UriType.EXTERNAL,
+      );
+      addSong(song: songList);
+    }
+
+    return getAllSongs();
   }
 
-  return getAllSongs();
-}
   @override
   Widget build(BuildContext context) {
     var _mediaquery = MediaQuery.of(context);
@@ -68,39 +66,38 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [ 
+            children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding:  EdgeInsets.only(left: 15),
+                    padding: EdgeInsets.only(left: 15),
                     child: Icon(
                       Icons.music_note,
                       size: 40,
                     ),
                   ),
                   Padding(
-                    padding:  EdgeInsets.only(right: 30),
+                    padding: EdgeInsets.only(right: 30),
                     child: Text(
                       'Enjoy  your own  music',
                       style: GoogleFonts.pacifico(
-                        fontSize: _mediaquery.size.height*0.031,
+                        fontSize: _mediaquery.size.height * 0.031,
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: _mediaquery.size.height * 0.015
-              ),
-               Padding(
-                padding:  EdgeInsets.only(left: 20),
-                child: Text('All Songs',
-                    style: GoogleFonts.aBeeZee(
-                      fontSize: 22.5,
-                      fontWeight: FontWeight.bold
-                    )
-                    ),
+              SizedBox(height: _mediaquery.size.height * 0.015),
+              Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'All Songs',
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 22.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const Divider(),
               Expanded(
@@ -117,37 +114,49 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                           itemCount: item.data!.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                            leading: QueryArtworkWidget(
-                              id: item.data![index].id,
-                              type: ArtworkType.AUDIO,
-                              nullArtworkWidget:const Image(image: AssetImage('assets/images/leadingImage.png')),
-                            ),
-                            title: Text(item.data![index].name,maxLines: 1,overflow: TextOverflow.fade,),
-                            subtitle: Text("${item.data![index].artist}",maxLines: 1,overflow: TextOverflow.fade),  
-                            trailing:IconButton(onPressed: (){
-
-                            }, icon: Icon(Icons.play_arrow_rounded,size: 40,)),
-                            onTap: () {
-                              context
-                                  .read<songModelProvider>()
-                                  .setId(item.data![index].id);
-                              VisibilityNav.isvisible = true;
-                              Navigator.push(
+                              leading: QueryArtworkWidget(
+                                id: item.data![index].id,
+                                type: ArtworkType.AUDIO,
+                                nullArtworkWidget:
+                                    const Image(image: AssetImage('assets/images/leadingImage.png')),
+                              ),
+                              title: Text(
+                                item.data![index].name,
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                              ),
+                              subtitle: Text(
+                                "${item.data![index].artist}",
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                              ),
+                              trailing: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.play_arrow_rounded,
+                                    size: 40,
+                                  )),
+                              onTap: () {
+                                setState(() {
+                                  context.read<songModelProvider>().setId(item.data![index].id);
+                                VisibilityNav.isvisible = true;
+                                });
+                                
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AlbumScreen(
-                                            songModel: item.data![index],
-                                            audioPlayer: audioPlayer,
-                                          )
-                                        ));
-                            },
-                          );
-                          
-                          } 
-                          
+                                    builder: (context) => AlbumScreen(
+                                      songModel: item.data![index],
+                                      audioPlayer: audioPlayer,
+                                      allsong: item.data!,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         );
-                  }
-                  )),
+                      })),
             ],
           ),
         ),
@@ -155,3 +164,4 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     );
   }
 }
+

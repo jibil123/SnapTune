@@ -1,75 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/screens/Library/library.dart';
 import 'package:snaptune/screens/main.home.dart';
+import 'package:snaptune/screens/navigator.visible.dart';
 import 'package:snaptune/screens/search/search.dart';
 import 'package:snaptune/screens/settings.dart';
 
-
 class HomeScreen extends StatefulWidget {
-   HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isContainerVisible = false;
 
-  bool isContainerVisible=false;
-
-
-  List Pages=[
+  List Pages = [
     MainHomeScreen(),
     SearchScreen(),
     LibraryScreen(),
     SettingScreen(),
   ];
-  int currentindexvalue=0;
+  int currentindexvalue = 0;
 
   @override
   Widget build(BuildContext context) {
-    var _mediaquery=MediaQuery.of(context);
+    var _mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: Pages[currentindexvalue],
-      
-      bottomNavigationBar: Stack(alignment: Alignment.bottomCenter,
+      bottomNavigationBar: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          // InkWell(onTap: () {  
-            
-          // },
-          //   child: Visibility(    
-          //     visible: VisibilityNav.isvisible,
-          //     child: Padding(
-          //       padding: const EdgeInsets.only(bottom: 60),
-          //       child: Container(
-          //         width:_mediaquery.size.width*0.90,
-          //         height: _mediaquery.size.height *0.09,
-          //         decoration: BoxDecoration(color: Color.fromARGB(255, 101, 89, 89),borderRadius: BorderRadius.circular(20)),
-          //         child: ListTile(
-          //           leading: Image(image: AssetImage('assets/images/Billie-Eilish-Happier-Than-Ever.webp')),
-          //           title: Text('Everything I Wanted'),
-          //           subtitle: Text('Bellie Eilish'),
-          //           trailing: Icon(Icons.pause,size: 50,),
-          //         )
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          InkWell(
+            onTap: () {},
+            child: Visibility(
+              visible: VisibilityNav.isvisible,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: Container(
+                  width: _mediaquery.size.width * 0.90,
+                  height: _mediaquery.size.height * 0.09,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 101, 89, 89),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: const ListTile(
+                    leading: Image(
+                        image: AssetImage(
+                            'assets/images/Billie-Eilish-Happier-Than-Ever.webp')),
+                    title: Text('Everything I Wanted'),
+                    subtitle: Text('Bellie Eilish'),
+                    trailing: Icon(
+                      Icons.pause,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           BottomNavigationBar(
-            showUnselectedLabels: true,  
+            showUnselectedLabels: true,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white54,
             currentIndex: currentindexvalue,
-            onTap: (value) => 
-             setState(() {
-               currentindexvalue=value;
-             }),
-            items: 
-          [
-            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',backgroundColor: Colors.black),
-            BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search',backgroundColor: Colors.black),
-            BottomNavigationBarItem(icon: Icon(Icons.library_music),label: 'library',backgroundColor: Colors.black),
-            BottomNavigationBarItem(icon: Icon(Icons.settings),label: 'Settings',backgroundColor: Colors.black),
-          ],
+            onTap: (value) => setState(() {
+              currentindexvalue = value;
+            }),
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                  backgroundColor: Colors.black),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Search',
+                  backgroundColor: Colors.black),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.library_music),
+                  label: 'library',
+                  backgroundColor: Colors.black),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                  backgroundColor: Colors.black),
+            ],
           ),
         ],
       ),
