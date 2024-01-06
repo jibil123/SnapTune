@@ -30,16 +30,16 @@ class LikedSongModel extends HiveObject{
 }
 
 
-// @HiveType(typeId: 3)
-// class PlaylistSongModel {
+@HiveType(typeId: 3)
+class PlaylistSongModel extends HiveObject{
 
-//   @HiveField(0)
-//   String name;
-//   @HiveField(1)
-//   List playlistmodel=[];
+  @HiveField(0)
+  String name;
+  @HiveField(1)
+  List<int> playlistmodel=[];
 
-//   PlaylistSongModel({
-//     required this.name,
-//     required this.playlistmodel,
-//   });
-// }
+  PlaylistSongModel({
+    required this.name,
+    required this.playlistmodel,
+  });
+}

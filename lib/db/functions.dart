@@ -76,11 +76,47 @@ Future<List<MusicModel>>showLikedSongs()async{
 
   // end of likedsongs
 
-  // Future<void>addPlaylist(String name)async{
-  //  final playlistDB=Hive.openBox<PlaylistSongModel>('playlist');
-  //  final songs=PlaylistSongModel(name: name, playlistmodel: playlistSong);
-  //  await playlistDB.
+  // functions.dart
 
-  // }
+
+Future<void> addPlaylist(String name, List<int> playlist) async {
+  final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
+  final songs = PlaylistSongModel(name: name, playlistmodel: playlist);
+  await playlistDB.add(songs);
+  print('hellow ${playlistDB.values.length}');
+}
+
+Future<List<PlaylistSongModel>> getAllPlaylists() async {
+  final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
+  return playlistDB.values.toList();
+}
+
+Future<void>deletePlaylist(int key)async{
+  final PlaylistBOx=await Hive.openBox<PlaylistSongModel>('playlist');
+  PlaylistBOx.delete(key);
+}
+
+
+// Future<void> addSongToPlaylist(String playlistName, MusicModel song,int k) async {
+//   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
+
+//   for (PlaylistSongModel playlist in playlistDB.values) {
+//     if (playlist.key == playlistName) {
+//       playlist.playlistmodel.add(k);
+//       await playlistDB.put(playlist.key, playlist);
+//       break;
+//     }
+//   }
+// }
+
+// Future<List<MusicModel>> getSongsFromPlaylist(String playlistName) async {
+//   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
+//   for (PlaylistSongModel playlist in playlistDB.values) {
+//     if (playlist.name == playlistName) {
+//       return List<MusicModel>.from(playlist.playlistmodel);
+//     }
+//   }
+//   return [];
+// }
 
 

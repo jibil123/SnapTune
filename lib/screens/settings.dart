@@ -19,17 +19,17 @@ class SettingScreen extends StatelessWidget {
             ),
             Divider(),
             SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(Icons.share,size: 40,),
-                Text(' Share',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
-              ],
-            ),
-            SizedBox(height: 20,),
+            // Row(
+            //   children: [
+            //     Icon(Icons.share,size: 40,),
+            //     Text(' Share',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
+            //   ],
+            // ),
+            // SizedBox(height: 20,),
              Row(
               children: [
-                Icon(Icons.timer,size: 40,),
-                Text(' Sleeper Timer',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
+                Icon(Icons.music_note_rounded,size: 40),
+                Text('Recently Played',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
               ],
             ),
             SizedBox(height: 20,),
@@ -43,7 +43,7 @@ class SettingScreen extends StatelessWidget {
              Row(
               children: [
                 Icon(Icons.policy,size: 40,),
-                Text(' Terms And Conditions',style: TextStyle(fontSize: 30)),
+                Text(' Terms And Conditions',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic)),
               ],
             ),
             SizedBox(height: 20),

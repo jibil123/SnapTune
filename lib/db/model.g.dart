@@ -82,3 +82,40 @@ class LikedSongModelAdapter extends TypeAdapter<LikedSongModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class PlaylistSongModelAdapter extends TypeAdapter<PlaylistSongModel> {
+  @override
+  final int typeId = 3;
+
+  @override
+  PlaylistSongModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return PlaylistSongModel(
+      name: fields[0] as String,
+      playlistmodel: (fields[1] as List).cast<int>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, PlaylistSongModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.playlistmodel);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PlaylistSongModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
