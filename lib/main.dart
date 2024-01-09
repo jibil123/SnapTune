@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
-import 'package:snaptune/splashscreen.dart';
+import 'package:snaptune/splashScreen/splashscreen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void>main()async{

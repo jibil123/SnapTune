@@ -5,11 +5,10 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/functions.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
-import 'package:snaptune/screens/albumscreen.dart';
-import 'package:snaptune/screens/navigator.visible.dart';
+import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 
 final AudioPlayer audioPlayer = AudioPlayer();
 
@@ -143,7 +142,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                   context
                                       .read<songModelProvider>()
                                       .setId(item.data![index].id);
-                                  VisibilityNav.isvisible = true;
                                 });
 
                                 Navigator.push(

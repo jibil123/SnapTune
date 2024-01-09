@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snaptune/db/functions.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
 
 class deleteDailog extends StatefulWidget {
   deleteDailog({super.key, required this.songkey});

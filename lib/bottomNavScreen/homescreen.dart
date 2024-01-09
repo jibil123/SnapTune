@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/screens/Library/library.dart';
-import 'package:snaptune/screens/main.home.dart';
-import 'package:snaptune/screens/navigator.visible.dart';
+import 'package:snaptune/screens/home/main.home.dart';
 import 'package:snaptune/screens/search/search.dart';
-import 'package:snaptune/screens/settings.dart';
+import 'package:snaptune/screens/settings/settings.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -29,36 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Pages[currentindexvalue],
       bottomNavigationBar:
-      //  Stack(
-      //   alignment: Alignment.bottomCenter,
-      //   children: [
-      //     InkWell(
-      //       onTap: () {},
-      //       child: Visibility(
-      //         visible: VisibilityNav.isvisible,
-      //         child: Padding(
-      //           padding: const EdgeInsets.only(bottom: 60),
-      //           child: Container(
-      //             width: _mediaquery.size.width * 0.90,
-      //             height: _mediaquery.size.height * 0.09,
-      //             decoration: BoxDecoration(
-      //                 color: const Color.fromARGB(255, 101, 89, 89),
-      //                 borderRadius: BorderRadius.circular(20)),
-      //             child: const ListTile(
-      //               leading: Image(
-      //                   image: AssetImage(
-      //                       'assets/images/Billie-Eilish-Happier-Than-Ever.webp')),
-      //               title: Text('Everything I Wanted'),
-      //               subtitle: Text('Bellie Eilish'),
-      //               trailing: Icon(
-      //                 Icons.pause,
-      //                 size: 50,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
           BottomNavigationBar(
             showUnselectedLabels: true,
             selectedItemColor: Colors.white,

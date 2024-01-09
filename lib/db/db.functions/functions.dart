@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 
  Future<void> addSong({required List<SongModel> song}) async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
@@ -39,7 +39,7 @@ Future<void>addLikedSongs(int songId)async{
 
 List<int>favSongs=[];
 ifLickedSongs()async{
-  favSongs.clear();
+  favSongs.clear(); 
   final box=await Hive.openBox<LikedSongModel>('Liked_Songs');
   List<LikedSongModel>likeSong=box.values.toList();
   for(LikedSongModel songs in likeSong){
@@ -96,27 +96,11 @@ Future<void>deletePlaylist(int key)async{
   PlaylistBOx.delete(key);
 }
 
-
-// Future<void> addSongToPlaylist(String playlistName, MusicModel song,int k) async {
-//   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
-
-//   for (PlaylistSongModel playlist in playlistDB.values) {
-//     if (playlist.key == playlistName) {
-//       playlist.playlistmodel.add(k);
-//       await playlistDB.put(playlist.key, playlist);
-//       break;
-//     }
-//   }
-// }
-
-// Future<List<MusicModel>> getSongsFromPlaylist(String playlistName) async {
-//   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
-//   for (PlaylistSongModel playlist in playlistDB.values) {
-//     if (playlist.name == playlistName) {
-//       return List<MusicModel>.from(playlist.playlistmodel);
-//     }
-//   }
-//   return [];
-// }
+//  Future<void>addSongsToPlaylist(MusicModel song,int key )async{
+//   final PlaylistBOx =await Hive.openBox<PlaylistSongModel>('playlist')
+//   final bx= PlaylistBOx.get(key);
+//   bx?.
+//   // PlaylistBOx.put(key, bx);
+//  }
 
 

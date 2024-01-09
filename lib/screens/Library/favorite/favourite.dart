@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:snaptune/db/functions.dart';
-import 'package:snaptune/screens/albumscreen.dart';
-import 'package:snaptune/screens/main.home.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
+import 'package:snaptune/screens/home/main.home.dart';
 
 class FavoriteSongs extends StatefulWidget {
   const FavoriteSongs({super.key});

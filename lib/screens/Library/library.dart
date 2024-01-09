@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:snaptune/db/model.dart';
-import 'package:snaptune/screens/Library/audioRecord.dart';
-import 'package:snaptune/screens/Library/deletescreen.dart';
-import 'package:snaptune/screens/Library/favourite.dart';
-import 'package:snaptune/screens/Library/playlistscreen.dart';
-import 'package:snaptune/db/functions.dart';
+import 'package:snaptune/db/songmodel/model.dart';
+import 'package:snaptune/screens/Library/audioRecord/audioRecord.dart';
+import 'package:snaptune/screens/Library/playlist/deletescreen.dart';
+import 'package:snaptune/screens/Library/favorite/favourite.dart';
+import 'package:snaptune/screens/Library/playlist/playlistscreen.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
 
 TextEditingController playListNameController = TextEditingController();
 

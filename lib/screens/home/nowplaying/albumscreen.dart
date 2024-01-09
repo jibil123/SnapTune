@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/functions.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
 import 'package:marquee_text/marquee_text.dart';
 
@@ -38,7 +38,6 @@ class _AlbumScreenState extends State<AlbumScreen> {
     super.initState();
     playsong();
 
-    // Listen for player state changes, especially when a song completes
     widget.audioPlayer.playerStateStream.listen((playerState) {
       if (playerState.processingState == ProcessingState.completed) {
         playNextSong();
@@ -50,12 +49,12 @@ class _AlbumScreenState extends State<AlbumScreen> {
     int currentIndex = widget.allsong.indexOf(widget.songModel);
 
     if (_isLooping) {
-      // If looping is enabled, play the same song again
+ 
       widget.audioPlayer.setAudioSource(AudioSource.uri(
         Uri.parse(widget.songModel.uri),
       ));
-    } else {
-      // If not looping, proceed with the next song logic
+    }
+     else {
       int nextIndex;
 
       if (_isShuffling) {

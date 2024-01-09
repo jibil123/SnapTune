@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/functions.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
-import 'package:snaptune/screens/albumscreen.dart';
-import 'package:snaptune/screens/main.home.dart';
-import 'package:snaptune/screens/navigator.visible.dart';
+import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
+import 'package:snaptune/screens/home/main.home.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -63,10 +62,15 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontSize: 22.5, fontWeight: FontWeight.bold)),
             ),
             Expanded(
-              child: ListView.builder(
+              child:findmusic.isEmpty?Center(
+                child: Text('songs not found', style: GoogleFonts.aBeeZee(
+                      fontSize: 25, fontWeight: FontWeight.bold)),
+              ):
+               ListView.builder(
                 itemCount: findmusic.length,
                 itemBuilder: (context, index) {
                   final music = findmusic[index];
+                  
                   return ListTile(
                     leading: QueryArtworkWidget(
                       id: music.id,
@@ -97,8 +101,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       context
                           .read<songModelProvider>()
                           .updateCurrentSong(findmusic[index]);
-
-                      VisibilityNav.isvisible = true;
                       Navigator.push(
                         context,
                         MaterialPageRoute(

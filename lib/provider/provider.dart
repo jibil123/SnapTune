@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snaptune/db/model.dart';
+import 'package:snaptune/db/songmodel/model.dart';
 
 class songModelProvider with ChangeNotifier{
 

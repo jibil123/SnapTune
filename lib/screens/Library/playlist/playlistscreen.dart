@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snaptune/screens/Library/addplaylsit.dart';
+import 'package:snaptune/screens/Library/playlist/addplaylsit.dart';
 
 class PlaylistSongs extends StatefulWidget {
   PlaylistSongs({super.key, required this.id});
