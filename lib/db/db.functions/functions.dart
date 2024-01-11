@@ -1,19 +1,23 @@
+import 'dart:async';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 
- Future<void> addSong({required List<SongModel> song}) async {
+Future<void> addSong({required List<SongModel> song}) async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
 
   for (SongModel element in song) {
     // Check if a song with the same ID already exists
     if (!songDB.containsKey(element.id)) {
-      songDB.put(element.id, MusicModel(
-        id: element.id,
-        name: element.title,
-        artist: element.artist.toString(),
-        uri: element.uri.toString(),
-      ));
+      songDB.put(
+          element.id,
+          MusicModel(
+            id: element.id,
+            name: element.title,
+            artist: element.artist.toString(),
+            uri: element.uri.toString(),
+          ));
     }
   }
 
@@ -27,22 +31,57 @@ Future<List<MusicModel>> getAllSongs() async {
   return songDB.values.toList();
 }
 
-// end songfetch,add and show 
+Future<List<MusicModel>> reloadDb() async {
+  // ignore: avoid_print
+  print('this is realosd');
+  final songDb = await Hive.openBox<MusicModel>('songBox');
+  songDb.clear();
+  List<MusicModel> songs = songDb.values.toList();
+  // ignore: no_leading_underscores_for_local_identifiers
+  OnAudioQuery _audioquerry = OnAudioQuery();
+  List<SongModel> audio = await _audioquerry.querySongs(
+    sortType: null,
+    orderType: OrderType.ASC_OR_SMALLER,
+    uriType: UriType.EXTERNAL,
+    ignoreCase: true,
+  );
+  bool ch = false;
 
+  for (int i = 0; i < audio.length; i++) {
+    ch = false;
+    for (int j = 0; j < songs.length; j++) {
+      if (audio[i].id == songs[j].id) {
+        ch = true;
+      }
+    }
+    if (ch == false) {
+      songDb.add(MusicModel(
+        id: 0,
+        artist: audio[i].artist.toString(),
+        uri: audio[i].uri.toString(),
+        name: audio[i].title,
+      ));
+      // ignore: avoid_print
+    }
+  }
+  return songDb.values.toList();
+}
 
-Future<void>addLikedSongs(int songId)async{
-  final box= await Hive.openBox<LikedSongModel>('Liked_Songs');
-  final songs= LikedSongModel(id: songId);
+// end songfetch,add and show
+
+Future<void> addLikedSongs(int songId) async {
+  final box = await Hive.openBox<LikedSongModel>('Liked_Songs');
+  final songs = LikedSongModel(id: songId);
   await box.add(songs);
   print(box.length);
 }
 
-List<int>favSongs=[];
-ifLickedSongs()async{
-  favSongs.clear(); 
-  final box=await Hive.openBox<LikedSongModel>('Liked_Songs');
-  List<LikedSongModel>likeSong=box.values.toList();
-  for(LikedSongModel songs in likeSong){
+List<int> favSongs = [];
+ifLickedSongs() async {
+  favSongs.clear();
+  final box = await Hive.openBox<LikedSongModel>('Liked_Songs');
+  List<LikedSongModel> likeSong = box.values.toList();
+  for (LikedSongModel songs in likeSong) {
     favSongs.add(songs.id);
   }
 }
@@ -57,16 +96,15 @@ Future<void> removeLikedSongs(int songId) async {
   }
 }
 
-Future<List<MusicModel>>showLikedSongs()async{
-  final box= await Hive.openBox<LikedSongModel>('Liked_Songs');
-  List<MusicModel>likedSongs=[];
+Future<List<MusicModel>> showLikedSongs() async {
+  final box = await Hive.openBox<LikedSongModel>('Liked_Songs');
+  List<MusicModel> likedSongs = [];
 
-  List<MusicModel>song=await getAllSongs();
+  List<MusicModel> song = await getAllSongs();
 
-  
-  for(int i=0;i<song.length;i++){
-    for(int j=0;j<box.length;j++){
-      if(box.values.toList()[j].id==song[i].id){
+  for (int i = 0; i < song.length; i++) {
+    for (int j = 0; j < box.length; j++) {
+      if (box.values.toList()[j].id == song[i].id) {
         likedSongs.add(song[i]);
       }
     }
@@ -74,10 +112,11 @@ Future<List<MusicModel>>showLikedSongs()async{
   return likedSongs;
 }
 
-  // end of likedsongs
+// end of likedsongs
 
-  // functions.dart
+// functions.dart
 
+List<int> songIds = [];
 
 Future<void> addPlaylist(String name, List<int> playlist) async {
   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
@@ -91,16 +130,114 @@ Future<List<PlaylistSongModel>> getAllPlaylists() async {
   return playlistDB.values.toList();
 }
 
-Future<void>deletePlaylist(int key)async{
-  final PlaylistBOx=await Hive.openBox<PlaylistSongModel>('playlist');
+Future<void> deletePlaylist(int key) async {
+  final PlaylistBOx = await Hive.openBox<PlaylistSongModel>('playlist');
   PlaylistBOx.delete(key);
 }
 
-//  Future<void>addSongsToPlaylist(MusicModel song,int key )async{
-//   final PlaylistBOx =await Hive.openBox<PlaylistSongModel>('playlist')
-//   final bx= PlaylistBOx.get(key);
-//   bx?.
-//   // PlaylistBOx.put(key, bx);
-//  }
+Future<void> editPlaylistName(
+    {required int key, required String newName}) async {
+  final playbox = await Hive.openBox<PlaylistSongModel>('playlist');
+  final box = playbox.get(key);
+  box!.name = newName;
+  playbox.put(key, box);
+}
 
+Future<void> addSongsToPlaylist(MusicModel song, int key) async {
+  final PlaylistBox = await Hive.openBox<PlaylistSongModel>('playlist');
+  final box = PlaylistBox.get(key);
+  box?.playlistmodel.add(song.id);
 
+  print(box!.playlistmodel.length);
+
+  PlaylistBox.put(key, box);
+  getAllSongsToPlaylst(key);
+}
+
+Future<bool> ifSongContain(MusicModel song, int key) async {
+  bool contain = false;
+  final playbox = await Hive.openBox<PlaylistSongModel>('playlist');
+  final box = playbox.get(key);
+  List<int> ids = box!.playlistmodel;
+  for (int i = 0; i < ids.length; i++) {
+    if (ids[i] == song.id) {
+      contain = true;
+    }
+  }
+  return contain;
+}
+
+Future<List<MusicModel>> getAllSongsToPlaylst(int key) async {
+  final PlaylistBox = await Hive.openBox<PlaylistSongModel>('playlist');
+  final box = PlaylistBox.get(key);
+
+  print("${box!.playlistmodel}");
+
+  List<int> listSongs = [];
+  listSongs.addAll(box.playlistmodel);
+
+  return await showPlaylistSongs(listSongs);
+}
+
+Future<List<MusicModel>> showPlaylistSongs(List<int> songids) async {
+  // final box= await Hive.openBox<PlaylistSongModel>('playlist');
+  List<MusicModel> playListSongs = [];
+
+  List<MusicModel> song = await getAllSongs();
+
+  for (int i = 0; i < songids.length; i++) {
+    for (int j = 0; j < song.length; j++) {
+      if (song[j].id == songids[i]) {
+        playListSongs.add(song[j]);
+      }
+    }
+  }
+  return playListSongs;
+}
+
+Future<void> removeSongFromPlaylist(int key, int songid) async {
+  final playbox = await Hive.openBox<PlaylistSongModel>('playlist');
+  final box = playbox.get(key);
+  box!.playlistmodel.remove(songid);
+}
+
+// end of the playlist
+
+Future<void> addRecentlyPlayed(int n) async {
+  final playbox = await Hive.openBox<RecentlyPlayedModel>('RecentlyPlayed');
+  List<RecentlyPlayedModel> box = playbox.values.toList();
+
+  for (int i = 0; i < box.length; i++) {
+    if (box[i].id == n) {
+      playbox.delete(box[i].key);
+      break;
+    }
+  }
+
+  playbox.add(RecentlyPlayedModel(id: n));
+}
+
+void deleteRecentlyPlayed(RecentlyPlayedModel n) async {
+  final playbox = await Hive.openBox<RecentlyPlayedModel>('RecentlyPlayed');
+  playbox.delete(n.key);
+}
+
+Future<List<MusicModel>> getSongsFromRcent() async {
+  final recent = await Hive.openBox<RecentlyPlayedModel>('recent_db');
+  List<MusicModel> songs = [];
+  List<MusicModel> mysong = [];
+  List<RecentlyPlayedModel> recentTempList = [];
+  recentTempList.addAll(recent.values);
+  mysong = await getAllSongs();
+  // ignore: avoid_print
+  print('hellooooo${recentTempList.length}');
+
+  for (int j = 0; j < recentTempList.length; j++) {
+    for (int i = 0; i < mysong.length; i++) {
+      if (mysong[i].id == recentTempList[j].id) {
+        songs.add(mysong[i]);
+      }
+    }
+  }
+  return songs;
+}

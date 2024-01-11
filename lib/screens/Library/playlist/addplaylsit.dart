@@ -19,33 +19,52 @@ class _AddSongsToPlayListState extends State<AddSongsToPlayList> {
         title: Text('Add songs to Plsylist'),
       ),
       body: FutureBuilder(
-          future: getAllSongs(),
+          future: reloadDb(),
           builder: (context, snapshot) {
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: ((context, index) {
                   return ListTile(
-                    leading: QueryArtworkWidget(
-                      id: snapshot.data![index].id,
-                      type: ArtworkType.AUDIO,
-                      nullArtworkWidget: const Image(
-                        image: AssetImage('assets/images/leadingImage.png'),
+                      leading: QueryArtworkWidget(
+                        id: snapshot.data![index].id,
+                        type: ArtworkType.AUDIO,
+                        nullArtworkWidget: const Image(
+                          image: AssetImage('assets/images/leadingImage.png'),
+                        ),
                       ),
-                    ),
-                    title: Text(
-                      snapshot.data![index]
-                          .name, // Use 'name' instead of 'songname'
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                    ),
-                    subtitle: Text(
-                      snapshot.data![index].artist,
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                    ),
-                    trailing:
-                        IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                  );
+                      title: Text(
+                        snapshot.data![index]
+                            .name, // Use 'name' instead of 'songname'
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                      ),
+                      subtitle: Text(
+                        snapshot.data![index].artist,
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                      ),
+                      trailing: songIds.contains(snapshot.data![index])
+                          ? IconButton(
+                              onPressed: () async {
+                                removeSongFromPlaylist(
+                                    widget.id, snapshot.data![index].id);
+                                 getAllSongsToPlaylst(widget.id);
+                                setState(() {});
+                              },
+                              icon: Icon(
+                                Icons.remove,
+                                color: Colors.blue,
+                              ))
+                          : IconButton(
+                              onPressed: () async {
+                                addSongsToPlaylist(
+                                    snapshot.data![index], widget.id);
+
+                                getAllSongsToPlaylst(snapshot.data![index].id);
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.add, color: Colors.yellow),
+                            ));
                 }));
           }),
     );

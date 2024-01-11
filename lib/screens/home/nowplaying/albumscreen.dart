@@ -43,6 +43,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
         playNextSong();
       }
     });
+    addRecentlyPlayed(widget.allsong.indexOf(widget.songModel));
   }
 
   void playNextSong() {
@@ -120,6 +121,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
   }
 
   void playsong() {
+
+    addRecentlyPlayed(widget.allsong.indexOf(widget.songModel));
     try {
       widget.audioPlayer.setAudioSource(AudioSource.uri(
         Uri.parse(widget.songModel.uri),

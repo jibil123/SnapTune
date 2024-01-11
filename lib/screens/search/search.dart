@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> initializeSongs() async {
-    allSongs = await getAllSongs();
+    allSongs = await reloadDb();
     findmusic = List.from(allSongs);
     setState(() {});
   }

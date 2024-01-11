@@ -43,3 +43,14 @@ class PlaylistSongModel extends HiveObject{
     required this.playlistmodel,
   });
 }
+
+@HiveType(typeId: 4)
+class RecentlyPlayedModel extends HiveObject{
+  @HiveField(0)
+  int id;
+
+  RecentlyPlayedModel({
+    required this.id
+  });
+
+}
