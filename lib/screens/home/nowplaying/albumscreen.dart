@@ -15,11 +15,13 @@ class AlbumScreen extends StatefulWidget {
     required this.songModel,
     required this.audioPlayer,
     required this.allsong,
+    required this.index,
   }) : super(key: key);
 
   MusicModel songModel;
   final AudioPlayer audioPlayer;
   final List<MusicModel> allsong;
+  int index;
 
   @override
   State<AlbumScreen> createState() => _AlbumScreenState();
@@ -37,14 +39,87 @@ class _AlbumScreenState extends State<AlbumScreen> {
   void initState() {
     super.initState();
     playsong();
-
+    
     widget.audioPlayer.playerStateStream.listen((playerState) {
       if (playerState.processingState == ProcessingState.completed) {
         playNextSong();
       }
     });
-    addRecentlyPlayed(widget.allsong.indexOf(widget.songModel));
   }
+
+
+
+void _showAddToPlaylistBottomSheet(BuildContext context) async {
+  List<PlaylistSongModel> playlists = await getAllPlaylists();
+
+  if (playlists.isEmpty) {
+    // No playlists available
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('No playlists available'),
+      ),
+    );
+    return;
+  }
+
+  // ignore: use_build_context_synchronously
+  await  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        height: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,  
+          children: [
+            ListTile(
+              title: Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold ),),
+              onTap: () {},
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: playlists.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(playlists[index].name,style: TextStyle(fontWeight: FontWeight.w500 ,fontSize: 20 ),),
+                    onTap: () async {
+                      bool songAlreadyInPlaylist = await ifSongContain(
+                        widget.songModel,
+                        playlists[index].key,
+                      );
+
+                      if (songAlreadyInPlaylist) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Song already in the playlist'),
+                          ),
+                        );
+                      } else {
+                        await addSongsToPlaylist(
+                          widget.songModel,
+                          playlists[index].key,
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Song added to playlist'),
+                          ),
+                        );
+                      }
+
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   void playNextSong() {
     int currentIndex = widget.allsong.indexOf(widget.songModel);
@@ -105,6 +180,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
           Uri.parse(shuffledPlaylist[previousIndex].uri),
         ));
       } else {
+
         previousIndex = (currentIndex - 1 + widget.allsong.length) % widget.allsong.length;
         widget.audioPlayer.setAudioSource(AudioSource.uri(
           Uri.parse(widget.allsong[previousIndex].uri),
@@ -120,9 +196,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
     });
   }
 
-  void playsong() {
-
-    addRecentlyPlayed(widget.allsong.indexOf(widget.songModel));
+  void playsong()async {
+    await addRecentlyPlayed(widget.allsong![widget.index].id);
     try {
       widget.audioPlayer.setAudioSource(AudioSource.uri(
         Uri.parse(widget.songModel.uri),
@@ -256,7 +331,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                    _showAddToPlaylistBottomSheet(context);
+                  },
                   icon: Icon(
                     Icons.library_add,
                     size: _mediaquery.size.height * 0.04,
@@ -377,4 +455,7 @@ class ArtWorkWidget extends StatelessWidget {
       artworkFit: BoxFit.cover,
     );
   }
+  
 }
+
+

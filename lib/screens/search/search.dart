@@ -28,10 +28,83 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> initializeSongs() async {
-    allSongs = await reloadDb();
+    allSongs = await getAllSongs();
     findmusic = List.from(allSongs);
     setState(() {});
   }
+
+  void _showAddToPlaylistBottomSheet(BuildContext context,MusicModel music) async {
+  List<PlaylistSongModel> playlists = await getAllPlaylists();
+
+  if (playlists.isEmpty) {
+    // No playlists available
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('No playlists available'),
+      ),
+    );
+    return;
+  }
+
+  // ignore: use_build_context_synchronously
+  await showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text('Add to Playlist'),
+              onTap: () {},
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: playlists.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(playlists[index].name),
+                    onTap: () async {
+                      bool songAlreadyInPlaylist = await ifSongContain(
+                        music,
+                        playlists[index].key,
+                      );
+
+                      if (songAlreadyInPlaylist) {
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Song already in the playlist'),
+                          ),
+                        );
+                      } else {
+                        await addSongsToPlaylist(
+                          music,
+                          playlists[index].key,
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Song added to playlist'),
+                          ),
+                        );
+                      }
+
+                       Navigator.pop(context); // Close the bottom sheet
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +128,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(15),
-              child: Text('All Songs',
-                  style: GoogleFonts.aBeeZee(
-                      fontSize: 22.5, fontWeight: FontWeight.bold)),
-            ),
             Expanded(
               child:findmusic.isEmpty?Center(
                 child: Text('songs not found', style: GoogleFonts.aBeeZee(
@@ -70,7 +137,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 itemCount: findmusic.length,
                 itemBuilder: (context, index) {
                   final music = findmusic[index];
-                  
                   return ListTile(
                     leading: QueryArtworkWidget(
                       id: music.id,
@@ -91,10 +157,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     trailing: IconButton(
                         onPressed: () {
-                          showBottomSheets(context, music);
+                          showBottomSheets(context, music,index);
                         },
                         icon: const Icon(Icons.more_horiz)),
                     onTap: () {
+                     
                       context
                           .read<songModelProvider>()
                           .setId(allSongs[index].id);
@@ -108,6 +175,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             songModel: findmusic[index],
                             audioPlayer: audioPlayer,
                             allsong:allSongs,
+                            index: index,
                           ),
                         ),
                       );
@@ -136,7 +204,7 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  showBottomSheets(BuildContext ctx, MusicModel music) {
+  showBottomSheets(BuildContext ctx, MusicModel music,int index ) {
     var mediaquery = MediaQuery.of(context);
     showModalBottomSheet(
         context: ctx,
@@ -211,7 +279,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+
+                        _showAddToPlaylistBottomSheet(context, music);
+                      },
                       icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                            Text('Add to Playlist',
@@ -233,6 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 songModel: music,
                                 audioPlayer: audioPlayer,
                                 allsong: allSongs,
+                                index: index,
                                 )));
                       },
                       icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,

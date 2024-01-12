@@ -25,7 +25,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   void initState() {
     super.initState();
-    Permission.storage.request();
+    Permission.storage.request(); 
   }
 
   final OnAudioQuery _onAudioQuery = OnAudioQuery();
@@ -63,7 +63,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       body: RefreshIndicator( 
         onRefresh: () async {
             await Future.delayed(const Duration(seconds: 3));
-            reloadDb();
+            // reloadDb();
             setState(() {});
           },
         child: SafeArea(
@@ -107,7 +107,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 const Divider(),
                 Expanded(
                     child: FutureBuilder<List<MusicModel>>(
-                        future: reloadDb(),
+                        future: fetchsongtodb(),
                         builder: (context, item) {
                           if (item.data == null) {
                             return const Center(
@@ -144,11 +144,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                       size: 40,
                                     )),
                                 onTap: () {
-                                  setState(() {
                                     context
                                         .read<songModelProvider>()
                                         .setId(item.data![index].id);
-                                  });
+                                  
         
                                   Navigator.push(
                                     context,
@@ -157,6 +156,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                         songModel: item.data![index],
                                         audioPlayer: audioPlayer,
                                         allsong: item.data!,
+                                        index: index,
                                       ),
                                     ),
                                   );

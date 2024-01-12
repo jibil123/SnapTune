@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:snaptune/bottomNavScreen/homescreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement (context, MaterialPageRoute(builder: (context)=>HomeScreen()),);
     });
     super.initState();
+    
   }
 
   @override

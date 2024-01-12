@@ -35,6 +35,17 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
       body: FutureBuilder(
           future: getAllSongsToPlaylst(widget.id),
           builder: (context, snapshot) {
+            if (snapshot.data == null) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.data!.isEmpty) {
+                return Center(
+                  child: Text(
+                    'no Playlist found',
+                  ),
+                );
+              }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {

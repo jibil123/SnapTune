@@ -297,8 +297,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                       padding: const EdgeInsets.only(top: 3 ,left: 5 ),
                                       child: Text(
                                         item.name,
-                                        style: const TextStyle(
-                                          fontSize: 25,
+                                        style:  TextStyle(
+                                          fontSize:   _mediaquery.size.height *0.024,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
