@@ -7,7 +7,6 @@ import 'package:snaptune/db/songmodel/model.dart';
 Future<void> addSong({required List<SongModel> song}) async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
 
-  if (songDB.isEmpty) {
     for (SongModel s in song) {
       songDB.add(MusicModel(
           id: s.id,
@@ -15,7 +14,7 @@ Future<void> addSong({required List<SongModel> song}) async {
           artist: s.artist.toString(),
           uri: s.uri.toString()));
     }
-  }
+  
   for (MusicModel s in songDB.values) {
     print(s.artist);
   }

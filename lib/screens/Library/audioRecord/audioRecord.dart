@@ -1,74 +1,111 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioRecord extends StatefulWidget {
-  const AudioRecord({super.key});
+  const AudioRecord({Key? key}) : super(key: key);
 
   @override
   State<AudioRecord> createState() => _AudioRecordState();
 }
 
 class _AudioRecordState extends State<AudioRecord> {
-
   late Record audiorecord;
   late AudioPlayer audioPlay;
+  late Duration recordingDuration;
+  late DateTime startTime;
+  late Timer timer;
 
-  bool isRecording=false;
-  String audioPath='';
+  bool isRecording = false;
+  bool isPaused = false;
+  String audioPath = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     audiorecord = Record();
-    audioPlay=AudioPlayer();
+    audioPlay = AudioPlayer();
+    recordingDuration = Duration(seconds: 0);
+    startTimer();
+  }
+
+  void startTimer() {
+    const oneSecond = Duration(seconds: 1);
+    timer = Timer.periodic(oneSecond, (Timer timer) {
+      if (isRecording || isPaused) {
+        setState(() {
+          recordingDuration = DateTime.now().difference(startTime);
+        });
+      } else {
+        timer.cancel();
+      }
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    timer.cancel();
     super.dispose();
     audiorecord.dispose();
+    audioPlay.dispose();
   }
 
-  void startRecording()async{
-    try{
-      if(await audiorecord.hasPermission()){
-        await audiorecord.start();
+  void toggleRecording() async {
+    try {
+      if (!isRecording) {
+        if (await audiorecord.hasPermission()) {
+          await audiorecord.start();
+          setState(() {
+            isRecording = true;
+            startTime = DateTime.now();
+          });
+        }
+      } else if (isPaused) {
+        await audiorecord.resume();
         setState(() {
-          isRecording=true;
+          isPaused = false;
+          startTime = DateTime.now(); // Update start time when resuming
+        });
+      } else {
+        await audiorecord.pause();
+        setState(() {
+          isPaused = true;
         });
       }
-    } catch(e){
-      print('error for start recording $e');
+    } catch (e) {
+      print('error for recording operation $e');
     }
   }
 
-  void stopRecording()async{
-    try{
-      String? path = await audiorecord.stop();
-      setState(() {
-        isRecording=false;
-        audioPath = path!;
-      });
-    }
-    catch(e){
-      print('error for start recording $e');
-    }
-  }
-
-  Future<void> playAduioRecorded()async{
-    try{
-      if(audioPath.isNotEmpty){
-        print('song is recorded');
+  void stopRecording() async {
+    try {
+      if (isRecording || isPaused) {
+        String? path = await audiorecord.stop();
+        setState(() {
+          isRecording = false;
+          isPaused = false;
+          audioPath = path!;
+        });
       }
-      Source urlSource = UrlSource(audioPath);
-      await audioPlay.play(urlSource);
+    } catch (e) {
+      print('error for stop recording $e');
     }
-    catch(e){
+  }
+
+  Future<void> playAudioRecorded() async {
+    try {
+      if (audioPath.isNotEmpty) {
+        Source urlSource = UrlSource(audioPath);
+        await audioPlay.play(urlSource);
+      }
+    } catch (e) {
       print('error for play record $e');
     }
+  }
+
+  String formatDuration(Duration duration) {
+    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
   @override
@@ -76,7 +113,7 @@ class _AudioRecordState extends State<AudioRecord> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Audio Recording'),
+        title: const Text('Audio Recording'),
       ),
       body: Column(
         children: [
@@ -87,12 +124,22 @@ class _AudioRecordState extends State<AudioRecord> {
             child: Column(
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {
-                    isRecording? stopRecording():startRecording();
-                  },
-                  icon:isRecording? Icon(Icons.pause) :Icon(Icons.play_arrow),
-                  label:isRecording? Text('stop Recording'): Text('Start Recording'),
+                  onPressed: toggleRecording,
+                  icon: isRecording && !isPaused
+                      ? Icon(Icons.pause)
+                      : Icon(Icons.play_arrow),
+                  label: isRecording || isPaused
+                      ? Text(isPaused ? 'Resume Recording' : 'Pause Recording')
+                      : Text('Start Recording'),
                 ),
+                SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: stopRecording,
+                  icon: Icon(Icons.stop),
+                  label: Text('Stop'),
+                ),
+                SizedBox(height: 16),
+                Text('Recording Duration: ${formatDuration(recordingDuration)}'),
               ],
             ),
           ),
@@ -100,18 +147,22 @@ class _AudioRecordState extends State<AudioRecord> {
             child: Container(
               color: Colors.red,
               height: double.infinity,
-              width: double.infinity ,
+              width: double.infinity,
               child: Column(
                 children: [
-                ElevatedButton(onPressed: (){
-                  playAduioRecorded();
-                }, child: Text('play record')),
+                  ElevatedButton(
+                    onPressed: () {
+                      playAudioRecorded();
+                    },
+                    child: Text('Play Recorded Audio'),
+                  ),
                 ],
-              )
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
+
