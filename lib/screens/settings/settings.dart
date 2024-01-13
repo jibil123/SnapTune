@@ -27,7 +27,6 @@ class SettingScreen extends StatelessWidget {
               ],
             ),
             Divider(),
-            SizedBox(height: 10),
             // Row(
             //   children: [
             //     Icon(Icons.share,size: 40,),
@@ -35,20 +34,6 @@ class SettingScreen extends StatelessWidget {
             //   ],
             // ),
             // SizedBox(height: 20,),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                child: Row(
-                  children: [
-                    Icon(Icons.music_note_rounded, size: 40),
-                    SizedBox(width: 10),
-                    Text('Recently Played',
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 25, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
             SizedBox(
               height: 20,
             ),

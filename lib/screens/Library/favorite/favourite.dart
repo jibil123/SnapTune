@@ -110,7 +110,11 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                                             audioPlayer: audioPlayer,
                                             allsong: items.data!,
                                             index: index,
-                                          )));
+                                          )))..then((value) {
+                                            setState(() {
+                                              
+                                            });
+                                          });
                                 },
                               );
                             });
