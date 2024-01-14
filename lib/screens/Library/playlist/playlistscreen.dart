@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/screens/Library/playlist/addplaylsit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:snaptune/screens/home/mainHome/main.home.dart';
+import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 
 class PlaylistSongs extends StatefulWidget {
   PlaylistSongs({super.key, required this.id});
@@ -42,7 +45,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
               } else if (snapshot.data!.isEmpty) {
                 return Center(
                   child: Text(
-                    'no Playlist found',
+                    'Add Playlist Songs',style: GoogleFonts.abyssinicaSil(fontSize: 25),
                   ),
                 );
               }
@@ -50,6 +53,19 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
+                    onTap: () {
+                      // ignore: avoid_single_cascade_in_expression_statements
+                      Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AlbumScreen(
+                                    songModel: snapshot.data![index],
+                                    audioPlayer: audioPlayer,
+                                    allsong: snapshot.data!,
+                                    index: index,
+                                  )))
+                            ..then((value) {
+                              setState(() {});
+                            });
+                    },
                     leading: QueryArtworkWidget(
                       id: snapshot.data![index].id,
                       type: ArtworkType.AUDIO,

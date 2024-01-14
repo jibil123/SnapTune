@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:snaptune/screens/settings/screens/about.dart';
+import 'package:snaptune/screens/settings/screens/privacy.dart';
+import 'package:snaptune/screens/settings/screens/terms.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -14,73 +18,94 @@ class SettingScreen extends StatelessWidget {
         padding: EdgeInsets.only(top: 10, left: 15, right: 15),
         child: Column(
           children: [
-            const Row(
+             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.music_note,
                   size: 80,
                 ),
                 Text(
-                  'Profile',
-                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  'Settings',
+                 style: GoogleFonts.pacifico(fontSize: 50) 
                 ),
               ],
             ),
-            Divider(),
-            // Row(
-            //   children: [
-            //     Icon(Icons.share,size: 40,),
-            //     Text(' Share',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
-            //   ],
-            // ),
-            // SizedBox(height: 20,),
-            SizedBox(
-              height: 20,
+            const Divider(),
+            const SizedBox(
+              height: 15,
             ),
-            InkWell(
-              onTap: () {},
-              child: Container(
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                children: [
+                  // Row(
+              //   children: [
+              //     Icon(Icons.share,size: 40,),
+              //     Text(' Share',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
+              //   ],
+              // ),
+              // SizedBox(height: 20,),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                    return const TermsConditions();
+                  }
+                 )
+                );
+                },
                 child: Row(
                   children: [
-                    Icon(Icons.private_connectivity_outlined, size: 40),
-                    SizedBox(width: 10),
-                    Text('Privacy & policy',
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 25, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                child: Row(
-                  children: [
-                    Icon(Icons.policy_outlined, size: 40),
-                    SizedBox(width: 10),
+                    const Icon(Icons.policy_outlined, size: 40),
+                    const SizedBox(width: 10),
                     Text('Terms & Conditions',
                         style: GoogleFonts.aBeeZee(
                             fontSize: 25, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () {},
-              child: Container(
+              const SizedBox(height: 20),
+                  InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                    return const PrivacyPolicy();
+                  }
+                 )
+                );
+                },
                 child: Row(
                   children: [
-                    Icon(Icons.info, size: 40),
-                    SizedBox(width: 10),
+                    const Icon(Icons.private_connectivity_outlined, size: 40),
+                    const SizedBox(width: 10),
+                    Text('Privacy & policy',
+                        style: GoogleFonts.aBeeZee(
+                            fontSize: 25, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                    return AboutScreen();
+                  }
+                 )
+                );
+                },
+                child: Row(
+                  children: [
+                    const  Icon(Icons.info, size: 40),
+                    const SizedBox(width: 10),
                     Text('About',
                         style: GoogleFonts.aBeeZee(
                             fontSize: 25, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
+                ],
+              ),
             ),
+            
           ],
         ),
       )),

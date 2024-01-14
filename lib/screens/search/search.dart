@@ -8,7 +8,7 @@ import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
-import 'package:snaptune/screens/home/main.home.dart';
+import 'package:snaptune/screens/home/mainHome/main.home.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -33,78 +33,79 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {});
   }
 
-  void _showAddToPlaylistBottomSheet(BuildContext context,MusicModel music) async {
-  List<PlaylistSongModel> playlists = await getAllPlaylists();
+  void showAddToPlaylistBottomSheet(
+      BuildContext context, MusicModel music) async {
+    List<PlaylistSongModel> playlists = await getAllPlaylists();
 
-  if (playlists.isEmpty) {
-    // No playlists available
+    if (playlists.isEmpty) {
+      // No playlists available
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No playlists available'),
+        ),
+      );
+      return;
+    }
+
     // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('No playlists available'),
-      ),
-    );
-    return;
-  }
-
-  // ignore: use_build_context_synchronously
-  await showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text('Add to Playlist'),
-              onTap: () {},
-            ),
-            const Divider(),
-            Expanded(
-              child: ListView.builder(
-                itemCount: playlists.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(playlists[index].name),
-                    onTap: () async {
-                      bool songAlreadyInPlaylist = await ifSongContain(
-                        music,
-                        playlists[index].key,
-                      );
-
-                      if (songAlreadyInPlaylist) {
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Song already in the playlist'),
-                          ),
-                        );
-                      } else {
-                        await addSongsToPlaylist(
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height:  300,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold ),),
+                onTap: () {},
+              ),
+              const Divider(),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: playlists.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(playlists[index].name,style: TextStyle(fontWeight: FontWeight.w500 ,fontSize: 20 ),),
+                      onTap: () async {
+                        bool songAlreadyInPlaylist = await ifSongContain(
                           music,
                           playlists[index].key,
                         );
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Song added to playlist'),
-                          ),
-                        );
-                      }
+                        if (songAlreadyInPlaylist) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Song already in the playlist'),
+                            ),
+                          );
+                        } else {
+                          await addSongsToPlaylist(
+                            music,
+                            playlists[index].key,
+                          );
 
-                       Navigator.pop(context); // Close the bottom sheet
-                    },
-                  );
-                },
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Song added to playlist'),
+                            ),
+                          );
+                        }
+
+                        Navigator.pop(context); // Close the bottom sheet
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,74 +116,87 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.only(left: 15 ,top: 5),     
+              child: Row(
+                children: [
+                  Icon(Icons.music_note,size: 40),
+                  SizedBox(width: 10,),
+                  Text('Search',
+                      style: GoogleFonts.aBeeZee(
+                          fontSize: 25, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15,top: 10,right: 15,bottom: 10),
               child: Container(
                 height: 50,
                 color: Colors.grey,
                 child: TextField(
                   onChanged: searchMusic,
                   decoration: const InputDecoration(
-                    hintText: 'What do you want to listen',
+                    hintText: 'What do you want to Listen',
                     border: OutlineInputBorder(),
                   ),
                 ),
               ),
             ),
             Expanded(
-              child:findmusic.isEmpty?Center(
-                child: Text('songs not found', style: GoogleFonts.aBeeZee(
-                      fontSize: 25, fontWeight: FontWeight.bold)),
-              ):
-               ListView.builder(
-                itemCount: findmusic.length,
-                itemBuilder: (context, index) {
-                  final music = findmusic[index];
-                  return ListTile(
-                    leading: QueryArtworkWidget(
-                      id: music.id,
-                      type: ArtworkType.AUDIO,
-                      nullArtworkWidget: const Image(
-                        image: AssetImage('assets/images/leadingImage.png'),
-                      ),
-                    ),
-                    title: Text(
-                      music.name, // Use 'name' instead of 'songname'
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                    ),
-                    subtitle: Text(
-                      music.artist,
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                    ),
-                    trailing: IconButton(
-                        onPressed: () {
-                          showBottomSheets(context, music,index);
-                        },
-                        icon: const Icon(Icons.more_horiz)),
-                    onTap: () {
-                     
-                      context
-                          .read<songModelProvider>()
-                          .setId(allSongs[index].id);
-                      context
-                          .read<songModelProvider>()
-                          .updateCurrentSong(findmusic[index]);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AlbumScreen(
-                            songModel: findmusic[index],
-                            audioPlayer: audioPlayer,
-                            allsong:allSongs,
-                            index: index,
+              child: findmusic.isEmpty
+                  ? Center(
+                      child: Text('Songs Not Found',
+                          style: GoogleFonts.abyssinicaSil(fontSize: 25)),
+                    )
+                  : ListView.builder(
+                      itemCount: findmusic.length,
+                      itemBuilder: (context, index) {
+                        final music = findmusic[index];
+                        return ListTile(
+                          leading: QueryArtworkWidget(
+                            id: music.id,
+                            type: ArtworkType.AUDIO,
+                            nullArtworkWidget: const Image(
+                              image:
+                                  AssetImage('assets/images/leadingImage.png'),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                          title: Text(
+                            music.name, // Use 'name' instead of 'songname'
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                          ),
+                          subtitle: Text(
+                            music.artist,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                showBottomSheets(context, music, index);
+                              },
+                              icon: const Icon(Icons.more_horiz)),
+                          onTap: () {
+                            context
+                                .read<songModelProvider>()
+                                .setId(allSongs[index].id);
+                            context
+                                .read<songModelProvider>()
+                                .updateCurrentSong(findmusic[index]);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AlbumScreen(
+                                  songModel: findmusic[index],
+                                  audioPlayer: audioPlayer,
+                                  allsong: allSongs,
+                                  index: index,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -204,7 +218,7 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  showBottomSheets(BuildContext ctx, MusicModel music,int index ) {
+  showBottomSheets(BuildContext ctx, MusicModel music, int index) {
     var mediaquery = MediaQuery.of(context);
     showModalBottomSheet(
         context: ctx,
@@ -239,13 +253,16 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Navigator.pop(context);
                               });
                             },
-                            icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            icon: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Remove From Favourite',
-                                    style: GoogleFonts.aBeeZee(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),),
+                                Text(
+                                  'Remove From Favourite',
+                                  style: GoogleFonts.aBeeZee(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
                                 const Icon(
                                   Icons.favorite,
                                   color: Colors.black,
@@ -262,13 +279,16 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Navigator.pop(context);
                               });
                             },
-                            icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            icon: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                 Text('Add to Favourite',
-                                    style: GoogleFonts.aBeeZee(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),),
+                                Text(
+                                  'Add to Favourite',
+                                  style: GoogleFonts.aBeeZee(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
                                 const Icon(
                                   Icons.favorite_border,
                                   color: Colors.black,
@@ -280,16 +300,16 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   IconButton(
                       onPressed: () {
-
-                        _showAddToPlaylistBottomSheet(context, music);
+                        showAddToPlaylistBottomSheet(context, music);
                       },
-                      icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           Text('Add to Playlist',
-                      style: GoogleFonts.aBeeZee(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black)),
+                          Text('Add to Playlist',
+                              style: GoogleFonts.aBeeZee(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                           const Icon(
                             Icons.library_add_outlined,
                             size: 35,
@@ -301,19 +321,20 @@ class _SearchScreenState extends State<SearchScreen> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => AlbumScreen(
-                                songModel: music,
-                                audioPlayer: audioPlayer,
-                                allsong: allSongs,
-                                index: index,
+                                  songModel: music,
+                                  audioPlayer: audioPlayer,
+                                  allsong: allSongs,
+                                  index: index,
                                 )));
                       },
-                      icon: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           Text('View in Album',
-                      style: GoogleFonts.aBeeZee(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black)),
+                          Text('View in Album',
+                              style: GoogleFonts.aBeeZee(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                           const Icon(
                             Icons.album_rounded,
                             size: 35,

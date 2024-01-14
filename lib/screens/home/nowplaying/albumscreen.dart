@@ -2,12 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:on_audio_query/on_audio_query.dart';
-import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
-import 'package:snaptune/provider/provider.dart';
 import 'package:marquee_text/marquee_text.dart';
+import 'package:snaptune/screens/home/nowplaying/artworkFunction/artwork.dart';
 
 class AlbumScreen extends StatefulWidget {
   AlbumScreen({
@@ -49,7 +47,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
 
 
 
-void _showAddToPlaylistBottomSheet(BuildContext context) async {
+void showAddToPlaylistBottomSheet(BuildContext context) async {
   List<PlaylistSongModel> playlists = await getAllPlaylists();
 
   if (playlists.isEmpty) {
@@ -332,8 +330,7 @@ void _showAddToPlaylistBottomSheet(BuildContext context) async {
                 ),
                 IconButton(
                   onPressed: () {
-
-                    _showAddToPlaylistBottomSheet(context);
+                    showAddToPlaylistBottomSheet(context);
                   },
                   icon: Icon(
                     Icons.library_add,
@@ -435,27 +432,3 @@ void _showAddToPlaylistBottomSheet(BuildContext context) async {
     );
   }
 }
-
-class ArtWorkWidget extends StatelessWidget {
-  const ArtWorkWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return QueryArtworkWidget(
-      id: context.watch<songModelProvider>().id,
-      type: ArtworkType.AUDIO,
-      nullArtworkWidget: const Icon(
-        Icons.music_note,
-        size: 320,
-      ),
-      artworkHeight: 320,
-      artworkWidth: 330,
-      artworkFit: BoxFit.cover,
-    );
-  }
-  
-}
-
-

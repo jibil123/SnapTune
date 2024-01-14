@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
+import 'package:snaptune/screens/home/fetchsong/fetchSong.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 
 final AudioPlayer audioPlayer = AudioPlayer();
@@ -25,35 +24,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   void initState() {
     super.initState();
-    Permission.storage.request();
-  }
-
-  final OnAudioQuery _onAudioQuery = OnAudioQuery();
-
-  void playsong(String? uri) {
-    try {
-      audioPlayer.setAudioSource(AudioSource.uri(
-        Uri.parse(uri ?? ""),
-      ));
-      audioPlayer.play();
-    } on Exception {
-      print('object');
-    }
-  }
-
-  Future<List<MusicModel>> fetchsongtodb() async {
-    final songDB = await Hive.openBox<MusicModel>('Song_Model');
-    if (songDB.isEmpty) {
-      List<SongModel> songList = await _onAudioQuery.querySongs(
-        sortType: null,
-        ignoreCase: true,
-        orderType: OrderType.ASC_OR_SMALLER,
-        uriType: UriType.EXTERNAL,
-      );
-      addSong(song: songList);
-    }
-
-    return getAllSongs();
   }
 
   @override
@@ -62,7 +32,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
+          padding: const EdgeInsets.only( top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,7 +47,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 30),
+                    padding: EdgeInsets.only(right: 50),
                     child: Text(
                       'Enjoy  your own  music',
                       style: GoogleFonts.pacifico(
@@ -112,6 +82,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                         } else {
                           return RefreshIndicator(
                             onRefresh: () async {
+                              await Future.delayed(const Duration(seconds: 1));
                               setState(() {});
                             },
                             child: ListView.builder(
@@ -163,7 +134,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                             ),
                           );
                         }
-                      })),
+                    }
+                  )
+                ),
             ],
           ),
         ),

@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/songmodel/model.dart';
+
 
 Future<void> addSong({required List<SongModel> song}) async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');

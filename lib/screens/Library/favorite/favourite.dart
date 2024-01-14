@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
-import 'package:snaptune/screens/home/main.home.dart';
+import 'package:snaptune/screens/home/mainHome/main.home.dart';
 
 class FavoriteSongs extends StatefulWidget {
   const FavoriteSongs({super.key});
@@ -51,8 +51,8 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                       } else if (items.data!.isEmpty) {
                         return Center(
                           child: Text(
-                            "Add Favourite Songs",
-                            style: GoogleFonts.abyssinicaSil(fontSize: 30)
+                            "Add Favorite Songs",
+                            style: GoogleFonts.abyssinicaSil(fontSize: 25)
                           ),
                         );
                       } else {
@@ -104,6 +104,7 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                                         ),
                                       ),
                                 onTap: () {
+                                  // ignore: avoid_single_cascade_in_expression_statements
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
                                             songModel: items.data![index],

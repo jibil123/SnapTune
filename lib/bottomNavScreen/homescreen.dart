@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/screens/Library/library.dart';
-import 'package:snaptune/screens/home/main.home.dart';
+import 'package:snaptune/screens/home/mainHome/main.home.dart';
 import 'package:snaptune/screens/search/search.dart';
 import 'package:snaptune/screens/settings/settings.dart';
 
