@@ -20,7 +20,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('playlist Screen'),
+        title:const Text('playlist Screen'),
         actions: [
           IconButton(
               onPressed: () {
@@ -32,7 +32,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                   setState(() {});
                 });
               },
-              icon: Icon(Icons.add))
+              icon:const Icon(Icons.add))
         ],
       ),
       body: FutureBuilder(
@@ -90,7 +90,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                               widget.id, snapshot.data![index].id);
                           setState(() {});
                         },
-                        icon: Icon(Icons.delete)),
+                        icon:const Icon(Icons.delete)),
                   );
                 });
           }),

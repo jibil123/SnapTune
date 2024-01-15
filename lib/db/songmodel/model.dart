@@ -54,3 +54,12 @@ class RecentlyPlayedModel extends HiveObject{
   });
 
 }
+
+@HiveType(typeId: 5)
+class AudioModel extends HiveObject{
+  @HiveField(0)
+  late String audioPath;
+  AudioModel({
+    required this.audioPath,
+  });
+}

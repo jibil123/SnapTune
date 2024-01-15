@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Permission.storage.request();
-    Timer(Duration(seconds: 3), () { 
+    Timer(const Duration(seconds: 3), () { 
       Navigator.pushReplacement (context, MaterialPageRoute(builder: (context)=>HomeScreen()),);
     });
     super.initState();
@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Image(image: AssetImage('assets/images/splashscreen.png')),

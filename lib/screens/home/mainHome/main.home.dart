@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:snaptune/db/songmodel/model.dart';
@@ -12,7 +11,8 @@ import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 final AudioPlayer audioPlayer = AudioPlayer();
 
 class MainHomeScreen extends StatefulWidget {
-  MainHomeScreen({
+   
+  const MainHomeScreen({
     super.key,
   });
 
@@ -28,7 +28,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
+    var mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -47,19 +47,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 50),
+                    padding:const EdgeInsets.only(right: 50),
                     child: Text(
                       'Enjoy  your own  music',
                       style: GoogleFonts.pacifico(
-                        fontSize: _mediaquery.size.height * 0.031,
+                        fontSize: mediaquery.size.height * 0.031,
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: _mediaquery.size.height * 0.015),
+              SizedBox(height: mediaquery.size.height * 0.015),
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding:const EdgeInsets.only(left: 20),
                 child: Text(
                   'All Songs',
                   style: GoogleFonts.aBeeZee(
@@ -102,6 +102,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                     overflow: TextOverflow.fade,
                                   ),
                                   subtitle: Text(
+                                    // ignore: unnecessary_string_interpolations
                                     "${item.data![index].artist}",
                                     maxLines: 1,
                                     overflow: TextOverflow.fade,
@@ -114,7 +115,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                       )),
                                   onTap: () {
                                     context
-                                        .read<songModelProvider>()
+                                        .read<SongModelProvider>()
                                         .setId(item.data![index].id);
 
                                     Navigator.push(

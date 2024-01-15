@@ -12,7 +12,7 @@ class ArtWorkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryArtworkWidget(
-      id: context.watch<songModelProvider>().id,
+      id: context.watch<SongModelProvider>().id,
       type: ArtworkType.AUDIO,
       nullArtworkWidget: const Icon(
         Icons.music_note,

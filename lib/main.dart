@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/splashScreen/splashscreen.dart';
@@ -20,16 +21,22 @@ Future<void>main()async{
   if(!Hive.isAdapterRegistered(RecentlyPlayedModelAdapter().typeId)){
     Hive.registerAdapter(RecentlyPlayedModelAdapter());
   }
+   if(!Hive.isAdapterRegistered(AudioModelAdapter().typeId)){
+    Hive.registerAdapter(AudioModelAdapter());
+  }
   runApp(
-    ChangeNotifierProvider(create: (context)=>songModelProvider(),
+    ChangeNotifierProvider(create: (context)=>SongModelProvider(),
     child: const MyApp(),)
   );
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
+  
     return  MaterialApp(
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black,
@@ -37,7 +44,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'weepk_8.Project',
-      home:SplashScreen(),
+      home:const SplashScreen(),
     );
   }
 }

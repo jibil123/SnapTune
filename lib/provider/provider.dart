@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 
-class songModelProvider with ChangeNotifier{
+class SongModelProvider with ChangeNotifier{
 
   int _id=0;
   int get id => _id;

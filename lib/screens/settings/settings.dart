@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:snaptune/screens/settings/screens/about.dart';
 import 'package:snaptune/screens/settings/screens/privacy.dart';
 import 'package:snaptune/screens/settings/screens/terms.dart';
@@ -15,7 +14,7 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+        padding:const EdgeInsets.only(top: 10, left: 15, right: 15),
         child: Column(
           children: [
              Row(
@@ -87,7 +86,7 @@ class SettingScreen extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx){
-                    return AboutScreen();
+                    return  const AboutScreen();
                   }
                  )
                 );

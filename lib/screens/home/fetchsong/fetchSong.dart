@@ -1,5 +1,5 @@
-
- import 'package:hive_flutter/hive_flutter.dart';
+// ignore: file_names
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 

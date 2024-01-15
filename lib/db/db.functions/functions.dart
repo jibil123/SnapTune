@@ -1,70 +1,65 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 
-
 Future<void> addSong({required List<SongModel> song}) async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
 
-    for (SongModel s in song) {
-      songDB.add(MusicModel(
-          id: s.id,
-          name: s.title,
-          artist: s.artist.toString(),
-          uri: s.uri.toString()));
-    }
-  
-  for (MusicModel s in songDB.values) {
-    print(s.artist);
+  for (SongModel s in song) {
+    songDB.add(MusicModel(
+        id: s.id,
+        name: s.title,
+        artist: s.artist.toString(),
+        uri: s.uri.toString()));
   }
+  // for (MusicModel s in songDB.values) {
+  //   print(s.artist);
+  // }
 }
 
 Future<List<MusicModel>> getAllSongs() async {
   final songDB = await Hive.openBox<MusicModel>('Song_Model');
-  print(songDB);
+  // print(songDB);
   return songDB.values.toList();
 }
 
-// void reloadDb() async {
-//   print('this is reload');
-//   final songDb = await Hive.openBox<MusicModel>('Song_Model');
-//   // songDb.clear(); // Be cautious while using this line
+// end of the adding
 
-//   List<MusicModel> songs = songDb.values.toList();
-//   OnAudioQuery _audioQuery = OnAudioQuery();
-//   List<SongModel> audio = await _audioQuery.querySongs(
-//     sortType: null,
-//     orderType: OrderType.ASC_OR_SMALLER,
-//     uriType: UriType.EXTERNAL,
-//     ignoreCase: true,
-//   );
 
-//   for (SongModel song in audio) {
-//     // Check if the song already exists in the database
-//     bool exists = songs.any((existingSong) => existingSong.id == song.id);
+Future<void> addAudio(String paths) async {
+  final audioDB = await Hive.openBox<AudioModel>('audio');
+  final path = AudioModel(audioPath: paths);
+  audioDB.add(path);
+}
 
-//     if (!exists) {
-//       songDb.put(
-//         song.id,
-//         MusicModel(
-//           id: song.id,
-//           artist: song.artist.toString(),
-//           uri: song.uri.toString(),
-//           name: song.title,
-//         ),
-//       );
-//     }
-//   }
-// }
+Future<List<AudioModel>>getAllAudio()async{
+  final audioDb=await Hive.openBox<AudioModel>('audio');
+  return audioDb.values.toList();
+}
 
-// end songfetch,add and show
+Future<void>deleteAudio(String paths)async{
+  final audioDb=await Hive.openBox<AudioModel>('audio');
+  for(AudioModel audio in audioDb.values.toList()){
+    if(paths==audio.audioPath){
+      // print('checking is success');
+      audioDb.delete(audio.key);
+    }
+  }
+}
+
+
+// end of the RecordAudio
+
+
 
 Future<void> addLikedSongs(int songId) async {
   final box = await Hive.openBox<LikedSongModel>('Liked_Songs');
   final songs = LikedSongModel(id: songId);
   await box.add(songs);
-  print(box.length);
+  // print(box.length);
 }
 
 List<int> favSongs = [];
@@ -107,13 +102,11 @@ Future<List<MusicModel>> showLikedSongs() async {
 
 // functions.dart
 
-
-
 Future<void> addPlaylist(String name, List<int> playlist) async {
   final playlistDB = await Hive.openBox<PlaylistSongModel>('playlist');
   final songs = PlaylistSongModel(name: name, playlistmodel: playlist);
   await playlistDB.add(songs);
-  print('hellow ${playlistDB.values.length}');
+  // print('hellow ${playlistDB.values.length}');
 }
 
 Future<List<PlaylistSongModel>> getAllPlaylists() async {
@@ -134,16 +127,16 @@ Future<void> editPlaylistName(
   playbox.put(key, box);
 }
 
-  List<int> songIds = [];
+List<int> songIds = [];
 
 Future<void> addSongsToPlaylist(MusicModel song, int key) async {
   final PlaylistBox = await Hive.openBox<PlaylistSongModel>('playlist');
   final box = PlaylistBox.get(key);
   box?.playlistmodel.add(song.id);
 
-  print(box!.playlistmodel.length);
+  // print(box!.playlistmodel.length);
 
-  PlaylistBox.put(key, box);
+  PlaylistBox.put(key, box!);
   getAllSongsToPlaylst(key);
 }
 
@@ -164,10 +157,10 @@ Future<List<MusicModel>> getAllSongsToPlaylst(int key) async {
   final PlaylistBox = await Hive.openBox<PlaylistSongModel>('playlist');
   final box = PlaylistBox.get(key);
 
-  print("${box!.playlistmodel}");
+  // print("${box!.playlistmodel}");
 
   List<int> listSongs = [];
-  listSongs.addAll(box.playlistmodel);
+  listSongs.addAll(box!.playlistmodel);
 
   return await showPlaylistSongs(listSongs);
 }
@@ -208,11 +201,12 @@ Future<void> addRecentlyPlayed(int n) async {
   }
 
   playbox.add(RecentlyPlayedModel(id: n));
-  print('recentplayadded${playbox.values}');
+  // print('recentplayadded${playbox.values}');
 }
 
 Future<List<MusicModel>> recentlyPlayedSongs() async {
-  final recentlyPlayedBox = await Hive.openBox<RecentlyPlayedModel>('RecentlyPlayed');
+  final recentlyPlayedBox =
+      await Hive.openBox<RecentlyPlayedModel>('RecentlyPlayed');
   List<RecentlyPlayedModel> songs = recentlyPlayedBox.values.toList();
   List<MusicModel> allSongs = await getAllSongs();
   List<MusicModel> recents = [];
@@ -227,7 +221,7 @@ Future<List<MusicModel>> recentlyPlayedSongs() async {
   return recents.reversed.toList();
 }
 
-  Future<void> deleteRecentSong(int songId) async {
+Future<void> deleteRecentSong(int songId) async {
   final box = await Hive.openBox<RecentlyPlayedModel>('RecentlyPlayed');
   final indexToDelete =
       box.values.toList().indexWhere((song) => song.id == songId);

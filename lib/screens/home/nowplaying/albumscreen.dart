@@ -7,6 +7,7 @@ import 'package:snaptune/db/songmodel/model.dart';
 import 'package:marquee_text/marquee_text.dart';
 import 'package:snaptune/screens/home/nowplaying/artworkFunction/artwork.dart';
 
+// ignore: must_be_immutable
 class AlbumScreen extends StatefulWidget {
   AlbumScreen({
     Key? key,
@@ -52,8 +53,9 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
 
   if (playlists.isEmpty) {
     // No playlists available
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('No playlists available'),
       ),
     );
@@ -64,13 +66,14 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
   await  showModalBottomSheet(
     context: context,
     builder: (context) {
+      // ignore: sized_box_for_whitespace
       return Container(
         height: 300,
         child: Column(
           mainAxisSize: MainAxisSize.min,  
           children: [
             ListTile(
-              title: Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold ),),
+              title:const Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold ),),
               onTap: () {},
             ),
             const Divider(),
@@ -79,7 +82,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                 itemCount: playlists.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(playlists[index].name,style: TextStyle(fontWeight: FontWeight.w500 ,fontSize: 20 ),),
+                    title: Text(playlists[index].name,style:const TextStyle(fontWeight: FontWeight.w500 ,fontSize: 20 ),),
                     onTap: () async {
                       bool songAlreadyInPlaylist = await ifSongContain(
                         widget.songModel,
@@ -87,8 +90,9 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                       );
 
                       if (songAlreadyInPlaylist) {
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Song already in the playlist'),
                           ),
                         );
@@ -98,13 +102,15 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                           playlists[index].key,
                         );
 
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Song added to playlist'),
                           ),
                         );
                       }
 
+                      // ignore: use_build_context_synchronously
                       Navigator.pop(context); // Close the bottom sheet
                     },
                   );
@@ -203,6 +209,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
       widget.audioPlayer.play();
       _isPlaying = true;
     } on Exception {
+      // ignore: avoid_print
       print('Error playing song');
     }
 
@@ -239,7 +246,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
+    var mediaquery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -253,30 +260,31 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
               child: Text(
                 'SnapTune',
                 style: TextStyle(
-                  fontSize: _mediaquery.size.height * 0.05,
+                  fontSize: mediaquery.size.height * 0.05,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: _mediaquery.size.height * 0.07),
+              padding: EdgeInsets.only(top: mediaquery.size.height * 0.07),
               child: const Center(child: ArtWorkWidget()),
             ),
             SizedBox(
-              height: _mediaquery.size.height * 0.09,
+              height: mediaquery.size.height * 0.09,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // ignore: sized_box_for_whitespace
                 Container(
-                  width: _mediaquery.size.width * 0.7,
+                  width: mediaquery.size.width * 0.7,
                   child: MarqueeText(
                     speed: 20,
                     text: TextSpan(
                       text: widget.songModel.name,
                       style: GoogleFonts.dmSerifDisplay(
-                        fontSize: _mediaquery.size.height * 0.050,
+                        fontSize: mediaquery.size.height * 0.050,
                       ),
                     ),
                   ),
@@ -314,8 +322,9 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // ignore: sized_box_for_whitespace
                 Container(
-                  width: _mediaquery.size.width * 0.71,
+                  width: mediaquery.size.width * 0.71,
                   child: MarqueeText(
                     speed: 20,
                     text: TextSpan(
@@ -323,7 +332,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                           ? "<unknown Artist>"
                           : widget.songModel.artist.toString(),
                       style: GoogleFonts.sevillana(
-                        fontSize: _mediaquery.size.height * 0.025,
+                        fontSize: mediaquery.size.height * 0.025,
                       ),
                     ),
                   ),
@@ -334,7 +343,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                   },
                   icon: Icon(
                     Icons.library_add,
-                    size: _mediaquery.size.height * 0.04,
+                    size: mediaquery.size.height * 0.04,
                   ),
                 )
               ],
@@ -372,7 +381,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                   },
                   icon: Icon(
                     Icons.shuffle,
-                    size: _mediaquery.size.height * 0.04,
+                    size: mediaquery.size.height * 0.04,
                     color: _isShuffling ? Colors.blue : Colors.white,
                   ),
                 ),
@@ -382,7 +391,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                       onPressed: playPreviousSong,
                       icon: Icon(
                         Icons.skip_previous,
-                        size: _mediaquery.size.height * 0.06,
+                        size: mediaquery.size.height * 0.06,
                       ),
                     ),
                     IconButton(
@@ -400,14 +409,14 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                         _isPlaying
                             ? Icons.pause
                             : Icons.play_arrow,
-                        size: _mediaquery.size.height * 0.07,
+                        size: mediaquery.size.height * 0.07,
                       ),
                     ),
                     IconButton(
                       onPressed: playNextSong,
                       icon: Icon(
                         Icons.skip_next,
-                        size: _mediaquery.size.height * 0.06,
+                        size: mediaquery.size.height * 0.06,
                       ),
                     ),
                   ],
@@ -420,7 +429,7 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
                   },
                   icon: Icon(
                     Icons.repeat,
-                    size: _mediaquery.size.height * 0.04,
+                    size: mediaquery.size.height * 0.04,
                     color: _isLooping ? Colors.blue : Colors.white,
                   ),
                 ),

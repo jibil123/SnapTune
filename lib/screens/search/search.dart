@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/services.dart';
@@ -11,6 +13,7 @@ import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
 
 class SearchScreen extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   SearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -52,13 +55,17 @@ class _SearchScreenState extends State<SearchScreen> {
     await showModalBottomSheet(
       context: context,
       builder: (context) {
+        // ignore: sized_box_for_whitespace
         return Container(
-          height:  300,
+          height: 300,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Text('Add to Playlist',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold ),),
+                title: const Text(
+                  'Add to Playlist',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
                 onTap: () {},
               ),
               const Divider(),
@@ -67,7 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemCount: playlists.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(playlists[index].name,style: TextStyle(fontWeight: FontWeight.w500 ,fontSize: 20 ),),
+                      title: Text(
+                        playlists[index].name,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20),
+                      ),
                       onTap: () async {
                         bool songAlreadyInPlaylist = await ifSongContain(
                           music,
@@ -87,6 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             playlists[index].key,
                           );
 
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Song added to playlist'),
@@ -94,6 +106,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           );
                         }
 
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context); // Close the bottom sheet
                       },
                     );
@@ -111,16 +124,19 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     var _mediaquery = MediaQuery.of(context);
     return Scaffold(
+      
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15 ,top: 5),     
+              padding: const EdgeInsets.only(left: 15, top: 5),
               child: Row(
                 children: [
-                  Icon(Icons.music_note,size: 40),
-                  SizedBox(width: 10,),
+                  const Icon(Icons.music_note, size: 40),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Text('Search',
                       style: GoogleFonts.aBeeZee(
                           fontSize: 25, fontWeight: FontWeight.bold)),
@@ -128,7 +144,8 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15,top: 10,right: 15,bottom: 10),
+              padding: const EdgeInsets.only(
+                  left: 15, top: 10, right: 15, bottom: 10),
               child: Container(
                 height: 50,
                 color: Colors.grey,
@@ -176,11 +193,12 @@ class _SearchScreenState extends State<SearchScreen> {
                               },
                               icon: const Icon(Icons.more_horiz)),
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             context
-                                .read<songModelProvider>()
+                                .read<SongModelProvider>()
                                 .setId(allSongs[index].id);
                             context
-                                .read<songModelProvider>()
+                                .read<SongModelProvider>()
                                 .updateCurrentSong(findmusic[index]);
                             Navigator.push(
                               context,

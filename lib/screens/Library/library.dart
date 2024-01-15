@@ -20,7 +20,7 @@ class LibraryScreen extends StatefulWidget {
 class _LibraryScreenState extends State<LibraryScreen> {
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
+    var mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -47,27 +47,27 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: _mediaquery.size.height * 0.015),
+              SizedBox(height: mediaquery.size.height * 0.015),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AudioRecord()));
+                      MaterialPageRoute(builder: (context) =>const AudioRecord()));
                 },
                 child: Container(
-                  width: _mediaquery.size.width * 0.85,
-                  height: _mediaquery.size.height * 0.2,
+                  width: mediaquery.size.width * 0.85,
+                  height: mediaquery.size.height * 0.2,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 136, 122, 122),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5),
+                    padding:const EdgeInsets.only(left: 10, top: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.record_voice_over_sharp, size: 80),
+                          const Icon(Icons.record_voice_over_sharp, size: 80),
                           Text('Voice Recorder ',
                               style: GoogleFonts.aBeeZee(
                                   fontSize: 35, fontWeight: FontWeight.bold)),
@@ -77,7 +77,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   GestureDetector(
@@ -90,18 +90,18 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       );
                     },
                     child: Container(
-                      width: _mediaquery.size.width * 0.41,
-                      height:_mediaquery.size.height * 0.17,
+                      width: mediaquery.size.width * 0.41,
+                      height:mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 116, 111, 111),
+                        color:const Color.fromARGB(255, 116, 111, 111),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5),
+                        padding:const EdgeInsets.only(left: 10, top: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.favorite, size: 60),
+                            const Icon(Icons.favorite, size: 60),
                             Text('Favorite Songs',
                                 style: GoogleFonts.aBeeZee(
                                     fontSize: 25, fontWeight: FontWeight.bold)),
@@ -110,25 +110,25 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: _mediaquery.size.width * 0.05),
+                  SizedBox(width: mediaquery.size.width * 0.05),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RecentlyPlayed()));
+                          builder: (context) =>const RecentlyPlayed()));
                     },
                     child: Container(
-                      width: _mediaquery.size.width * 0.41,
-                      height:_mediaquery.size.height * 0.17,
+                      width: mediaquery.size.width * 0.41,
+                      height:mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 116, 111, 111),
+                        color:const Color.fromARGB(255, 116, 111, 111),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5),
+                        padding:const EdgeInsets.only(left: 10, top: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.music_note_outlined, size: 60),
+                            const Icon(Icons.music_note_outlined, size: 60),
                             Text('Recently Played',
                                 style: GoogleFonts.aBeeZee(
                                     fontSize: 25, fontWeight: FontWeight.bold)),
@@ -140,7 +140,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ],
               ),
               SizedBox(
-                height: _mediaquery.size.height * 0.02,
+                height: mediaquery.size.height * 0.02,
               ),
               Expanded(
                 child: FutureBuilder(
@@ -168,7 +168,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           PlaylistSongModel item = snapshot.data![index];
                           if (item == null) {
-                            Center(child: Text('Add Playlist'));
+                            const Center(child: Text('Add Playlist'));
                             setState(() {});
                           }
                           return InkWell(
@@ -178,7 +178,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             )),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 83, 77, 77),
+                                color:const Color.fromARGB(255, 83, 77, 77),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
@@ -197,7 +197,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                         ),
                                         PopupMenuButton(
                                           color: Colors.black38,
-                                          icon: Icon(Icons.more_vert),
+                                          icon:const Icon(Icons.more_vert),
                                           itemBuilder: (context) {
                                             return [
                                               PopupMenuItem(
@@ -287,7 +287,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                       child: Text(item.name,
                                           style: GoogleFonts.aBeeZee(
                                               fontSize:
-                                                  _mediaquery.size.height *
+                                                  mediaquery.size.height *
                                                       0.024,
                                               fontWeight: FontWeight.bold)),
                                     ),
@@ -317,7 +317,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Playlist'),
+          title:const Text('Add Playlist'),
           content: TextField(
             controller: playListNameController,
             decoration: const InputDecoration(
