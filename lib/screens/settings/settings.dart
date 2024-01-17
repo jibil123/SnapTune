@@ -11,6 +11,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -54,15 +55,15 @@ class SettingScreen extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    const Icon(Icons.policy_outlined, size: 40),
+                    const Icon(Icons.policy_outlined, size: 35),
                     const SizedBox(width: 10),
                     Text('Terms & Conditions',
                         style: GoogleFonts.aBeeZee(
-                            fontSize: 25, fontWeight: FontWeight.bold)),
+                            fontSize: 23, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
                   InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx){
@@ -73,15 +74,15 @@ class SettingScreen extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    const Icon(Icons.private_connectivity_outlined, size: 40),
+                    const Icon(Icons.private_connectivity_outlined, size: 35),
                     const SizedBox(width: 10),
                     Text('Privacy & policy',
                         style: GoogleFonts.aBeeZee(
-                            fontSize: 25, fontWeight: FontWeight.bold)),
+                            fontSize: 23, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               
               InkWell(
                 onTap: () {
@@ -93,14 +94,17 @@ class SettingScreen extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    const  Icon(Icons.info, size: 40),
+                    const  Icon(Icons.info, size: 35),
                     const SizedBox(width: 10),
                     Text('About',
                         style: GoogleFonts.aBeeZee(
-                            fontSize: 25, fontWeight: FontWeight.bold)),
+                            fontSize: 23, fontWeight: FontWeight.bold)),
                   ],
                 ),
-              ),
+              ),   
+              SizedBox(height:mediaquery.size.height *0.5),     
+                 const  Text('Version 1.0.1')
+               
                 ],
               ),
             ),

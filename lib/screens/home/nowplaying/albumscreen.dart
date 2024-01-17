@@ -259,11 +259,10 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
             Center(
               child: Text(
                 'SnapTune',
-                style: TextStyle(
-                  fontSize: mediaquery.size.height * 0.05,
-                  fontStyle: FontStyle.italic,
+                style:  GoogleFonts.pacifico( 
                   fontWeight: FontWeight.bold,
-                ),
+                        fontSize: mediaquery.size.height * 0.050,
+                      ),
               ),
             ),
             Padding(
@@ -278,53 +277,50 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
               children: [
                 // ignore: sized_box_for_whitespace
                 Container(
-                  width: mediaquery.size.width * 0.7,
+                  width: mediaquery.size.width * 0.65,
                   child: MarqueeText(
                     speed: 20,
                     text: TextSpan(
                       text: widget.songModel.name,
                       style: GoogleFonts.dmSerifDisplay(
-                        fontSize: mediaquery.size.height * 0.050,
+                        fontSize: mediaquery.size.height * 0.045, 
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  child: favSongs.contains(widget.songModel.id)
-                      ? IconButton(
-                          onPressed: () {
-                            removeLikedSongs(widget.songModel.id);
-                            ifLickedSongs();
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 35,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            addLikedSongs(widget.songModel.id);
-                            ifLickedSongs();
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            color: Colors.red,
-                            size: 35,
-                          ),
+                favSongs.contains(widget.songModel.id)
+                    ? IconButton(
+                        onPressed: () {
+                          removeLikedSongs(widget.songModel.id);
+                          ifLickedSongs();
+                          setState(() {});
+                        }, 
+                        icon:  Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                          size: mediaquery.size.height*0.04,
                         ),
-                )
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          addLikedSongs(widget.songModel.id);
+                          ifLickedSongs();
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          Icons.favorite_border,
+                          color: Colors.red,
+                          size: mediaquery.size.height*0.04,
+                        ),
+                      )
               ],
             ),
             Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // ignore: sized_box_for_whitespace
                 Container(
-                  width: mediaquery.size.width * 0.71,
+                  width: mediaquery.size.width * 0.60,
                   child: MarqueeText(
                     speed: 20,
                     text: TextSpan(

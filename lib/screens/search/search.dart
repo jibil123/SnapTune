@@ -242,7 +242,7 @@ class _SearchScreenState extends State<SearchScreen> {
         context: ctx,
         builder: (context1) {
           return Container(
-            height: mediaquery.size.height * 0.25,
+            height: mediaquery.size.height * 0.27,
             width: double.infinity,
             decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 214, 203, 203),
@@ -255,9 +255,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     onPressed: () {
                       Navigator.pop(ctx);
                     },
-                    icon: const Icon(
+                    icon:  Icon(
                       Icons.arrow_downward,
-                      size: 40,
+                      size:  mediaquery.size.height * 0.05,                    
                       color: Colors.black,
                     ),
                   ),
@@ -277,14 +277,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Text(
                                   'Remove From Favourite',
                                   style: GoogleFonts.aBeeZee(
-                                      fontSize: 25,
+                                      fontSize: mediaquery.size.height * 0.03,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
-                                const Icon(
+                                 Icon(
                                   Icons.favorite,
                                   color: Colors.black,
-                                  size: 35,
+                                  size: mediaquery.size.height * 0.04, 
                                 ),
                               ],
                             ),
@@ -303,14 +303,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Text(
                                   'Add to Favourite',
                                   style: GoogleFonts.aBeeZee(
-                                      fontSize: 25,
+                                      fontSize:mediaquery.size.height * 0.03,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
-                                ),
-                                const Icon(
+                                ), 
+                                 Icon(
                                   Icons.favorite_border,
                                   color: Colors.black,
-                                  size: 35,
+                                  size: mediaquery.size.height * 0.04,
                                 ),
                               ],
                             ),
@@ -325,12 +325,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           Text('Add to Playlist',
                               style: GoogleFonts.aBeeZee(
-                                  fontSize: 25,
+                                  fontSize:mediaquery.size.height * 0.03,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
-                          const Icon(
+                            Icon(
                             Icons.library_add_outlined,
-                            size: 35,
+                            size: mediaquery.size.height * 0.04,
                             color: Colors.black,
                           ),
                         ],
@@ -343,19 +343,21 @@ class _SearchScreenState extends State<SearchScreen> {
                                   audioPlayer: audioPlayer,
                                   allsong: allSongs,
                                   index: index,
-                                )));
+                                )
+                              )
+                            );
                       },
                       icon: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('View in Album',
                               style: GoogleFonts.aBeeZee(
-                                  fontSize: 25,
+                                  fontSize : mediaquery.size.height * 0.03,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
-                          const Icon(
+                           Icon(
                             Icons.album_rounded,
-                            size: 35,
+                            size: mediaquery.size.height * 0.04, 
                             color: Colors.black,
                           ),
                         ],

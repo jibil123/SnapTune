@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isContainerVisible = false;
 
-  List Pages = [
+  List  Pages = [
     MainHomeScreen(),
     SearchScreen(),
     LibraryScreen(),

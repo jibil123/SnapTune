@@ -14,7 +14,7 @@ class AboutScreen extends StatelessWidget {
             child: Text(
                 'Welcome to SnapTune,where music comes alive! . Immerse yourself in the world of music with SnapTune.Discover, stream, and enjoy your favorite tunes all in one place.Experience a new level of musicexploration with SnapTune . Curatedplaylists for every mood and occasion.Personalized recommendations basedon your music preferences.Unlimited access to a vast library of songs at your fingertips.Our mission is to make musican integral part of your daily life.Available on iOS and Android.Connect with other music lovers,share your favorite tracks, and discover new gems together.Users love SnapTune Here what theyre saying.Thank you for joining us on this musical adventure.Let the beats play on!'
                 ,style: GoogleFonts.abyssinicaSil(
-                fontSize: 25,)),
+                fontSize: 20)),
           ),
       )
     );

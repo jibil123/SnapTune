@@ -50,8 +50,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
               SizedBox(height: mediaquery.size.height * 0.015),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) =>const AudioRecord()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AudioRecord()));
                 },
                 child: Container(
                   width: mediaquery.size.width * 0.85,
@@ -61,7 +61,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
-                    padding:const EdgeInsets.only(left: 10, top: 5),
+                    padding: const EdgeInsets.only(left: 10, top: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(
@@ -78,7 +78,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -90,18 +90,19 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       );
                     },
                     child: Container(
-                      width: mediaquery.size.width * 0.41,
-                      height:mediaquery.size.height * 0.17,
+                      width: mediaquery.size.width * 0.4,
+                      height: mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
-                        color:const Color.fromARGB(255, 116, 111, 111),
+                        color: const Color.fromARGB(255, 116, 111, 111),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding:const EdgeInsets.only(left: 10, top: 5),
+                        padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.favorite, size: 60),
+                            Icon(Icons.favorite,
+                                size: mediaquery.size.height * 0.07),
                             Text('Favorite Songs',
                                 style: GoogleFonts.aBeeZee(
                                     fontSize: 25, fontWeight: FontWeight.bold)),
@@ -110,21 +111,21 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: mediaquery.size.width * 0.05),
+                  // SizedBox(width: mediaquery.size.width * 0.06), 
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>const RecentlyPlayed()));
+                          builder: (context) => const RecentlyPlayed()));
                     },
                     child: Container(
-                      width: mediaquery.size.width * 0.41,
-                      height:mediaquery.size.height * 0.17,
+                      width: mediaquery.size.width * 0.4,
+                      height: mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
-                        color:const Color.fromARGB(255, 116, 111, 111),
+                        color: const Color.fromARGB(255, 116, 111, 111),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding:const EdgeInsets.only(left: 10, top: 5),
+                        padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -161,7 +162,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           crossAxisCount: 2,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
-                          childAspectRatio: 4 / 3,
+                          childAspectRatio: 3/2,
                         ),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
@@ -178,7 +179,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             )),
                             child: Container(
                               decoration: BoxDecoration(
-                                color:const Color.fromARGB(255, 83, 77, 77),
+                                color: const Color.fromARGB(255, 83, 77, 77),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
@@ -186,18 +187,15 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
+                                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Icon(
                                           Icons.queue_music_rounded,
                                           size: 60,
-                                        ),
-                                        const SizedBox(
-                                          width: 45,
-                                        ),
+                                        ),                                    
                                         PopupMenuButton(
                                           color: Colors.black38,
-                                          icon:const Icon(Icons.more_vert),
+                                          icon: const Icon(Icons.more_vert),
                                           itemBuilder: (context) {
                                             return [
                                               PopupMenuItem(
@@ -279,16 +277,16 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                             ];
                                           },
                                         ),
-                                      ],
+                                      ]
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 3, left: 5),
+                                           left: 5),
                                       child: Text(item.name,
+                                      overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.aBeeZee(
-                                              fontSize:
-                                                  mediaquery.size.height *
-                                                      0.024,
+                                              fontSize: mediaquery.size.height *
+                                                  0.024,
                                               fontWeight: FontWeight.bold)),
                                     ),
                                   ],
@@ -317,7 +315,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:const Text('Add Playlist'),
+          title: const Text('Add Playlist'),
           content: TextField(
             controller: playListNameController,
             decoration: const InputDecoration(

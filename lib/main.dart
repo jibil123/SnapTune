@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/splashScreen/splashscreen.dart';

@@ -75,7 +75,7 @@ class _AddSongsToPlayListState extends State<AddSongsToPlayList> {
 
   Widget _buildTrailingButton(MusicModel song) {
     return FutureBuilder<bool>(
-      future: ifSongContain(song, widget.id),
+      future: ifSongContain(song, widget.id ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
