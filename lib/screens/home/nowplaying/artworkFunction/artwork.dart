@@ -13,16 +13,16 @@ class ArtWorkWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaquery = MediaQuery.of(context);
     return QueryArtworkWidget(
+      key: ValueKey<int>(context.watch<SongModelProvider>().id),
       id: context.watch<SongModelProvider>().id,
       type: ArtworkType.AUDIO,
-      nullArtworkWidget:  Icon(
+      nullArtworkWidget: Icon(
         Icons.music_note,
-        size: mediaquery.size.height *0.35,
+        size: mediaquery.size.height * 0.35,
       ),
-      artworkHeight: mediaquery.size.height *0.35,
-      artworkWidth: mediaquery.size.height *0.35,
+      artworkHeight: mediaquery.size.height * 0.35,
+      artworkWidth: mediaquery.size.height * 0.35,
       artworkFit: BoxFit.cover,
     );
   }
-  
 }

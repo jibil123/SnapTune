@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 
@@ -44,6 +46,9 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                   itemBuilder: (context, index) {
                     return ListTile(
                         onTap: () {
+                               context
+                          .read<SongModelProvider>()
+                          .setId(snapshot.data![index].id);
                           // ignore: avoid_single_cascade_in_expression_statements
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AlbumScreen(

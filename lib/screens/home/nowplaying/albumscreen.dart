@@ -2,9 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:marquee_text/marquee_text.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/home/nowplaying/artworkFunction/artwork.dart';
 
 // ignore: must_be_immutable
@@ -38,6 +40,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
   void initState() {
     super.initState();
     playsong();
+    showLikedSongs();
+    ifLickedSongs();
     
     widget.audioPlayer.playerStateStream.listen((playerState) {
       if (playerState.processingState == ProcessingState.completed) {
@@ -234,10 +238,13 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
   }
 
   void updateCurrentSong(MusicModel newSongModel) {
-    setState(() {
-      widget.songModel = newSongModel;
-    });
-  }
+  context.read<SongModelProvider>().setId(newSongModel.id);
+  setState(() {
+    widget.songModel = newSongModel;
+  });
+}
+
+
 
   void changetoseconds(int seconds) {
     Duration duration = Duration(seconds: seconds);

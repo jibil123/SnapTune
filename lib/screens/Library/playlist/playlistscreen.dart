@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/Library/playlist/addplaylsit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
@@ -20,7 +22,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:const Text('playlist Screen'),
+        title: const Text('playlist Screen'),
         actions: [
           IconButton(
               onPressed: () {
@@ -32,39 +34,43 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                   setState(() {});
                 });
               },
-              icon:const Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
       body: FutureBuilder(
           future: getAllSongsToPlaylst(widget.id),
           builder: (context, snapshot) {
             if (snapshot.data == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    'Add Playlist Songs',style: GoogleFonts.abyssinicaSil(fontSize: 25),
-                  ),
-                );
-              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(
+                  'Add Playlist Songs',
+                  style: GoogleFonts.abyssinicaSil(fontSize: 25),
+                ),
+              );
+            }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
+                      context
+                          .read<SongModelProvider>()
+                          .setId(snapshot.data![index].id);
                       // ignore: avoid_single_cascade_in_expression_statements
                       Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AlbumScreen(
-                                    songModel: snapshot.data![index],
-                                    audioPlayer: audioPlayer,
-                                    allsong: snapshot.data!,
-                                    index: index,
-                                  )))
-                            ..then((value) {
-                              setState(() {});
-                            });
+                          builder: (context) => AlbumScreen(
+                                songModel: snapshot.data![index],
+                                audioPlayer: audioPlayer,
+                                allsong: snapshot.data!,
+                                index: index,
+                              )))
+                        ..then((value) {
+                          setState(() {});
+                        });
                     },
                     leading: QueryArtworkWidget(
                       id: snapshot.data![index].id,
@@ -90,7 +96,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                               widget.id, snapshot.data![index].id);
                           setState(() {});
                         },
-                        icon:const Icon(Icons.delete)),
+                        icon: const Icon(Icons.delete)),
                   );
                 });
           }),

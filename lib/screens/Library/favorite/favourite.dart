@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
+import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
 
@@ -50,10 +52,8 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                         );
                       } else if (items.data!.isEmpty) {
                         return Center(
-                          child: Text(
-                            "Add Favorite Songs",
-                            style: GoogleFonts.abyssinicaSil(fontSize: 25)
-                          ),
+                          child: Text("Add Favorite Songs",
+                              style: GoogleFonts.abyssinicaSil(fontSize: 25)),
                         );
                       } else {
                         return ListView.builder(
@@ -78,32 +78,21 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                                   maxLines: 1,
                                   overflow: TextOverflow.fade,
                                 ),
-                                trailing: favSongs
-                                        .contains(items.data![index].id)
-                                    ? IconButton(
-                                        onPressed: () {
-                                          removeLikedSongs(
-                                              items.data![index].id);
-                                          ifLickedSongs();
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        ),
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          addLikedSongs(items.data![index].id);
-                                          ifLickedSongs();
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    removeLikedSongs(items.data![index].id);
+                                    ifLickedSongs();
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ),
+                                ),
                                 onTap: () {
+                                  context
+                                      .read<SongModelProvider>()
+                                      .setId(items.data![index].id);
                                   // ignore: avoid_single_cascade_in_expression_statements
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AlbumScreen(
@@ -111,11 +100,10 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                                             audioPlayer: audioPlayer,
                                             allsong: items.data!,
                                             index: index,
-                                          )))..then((value) {
-                                            setState(() {
-                                              
-                                            });
-                                          });
+                                          )))
+                                    ..then((value) {
+                                      setState(() {});
+                                    });
                                 },
                               );
                             });

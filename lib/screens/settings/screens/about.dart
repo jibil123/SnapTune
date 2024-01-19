@@ -9,10 +9,39 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title:const Text('About')),
         body: Padding(
-          padding:const EdgeInsets.all(20),
+          padding:const EdgeInsets.all(20), 
           child:  SingleChildScrollView(
             child: Text(
-                'Welcome to SnapTune,where music comes alive! . Immerse yourself in the world of music with SnapTune.Discover, stream, and enjoy your favorite tunes all in one place.Experience a new level of musicexploration with SnapTune . Curatedplaylists for every mood and occasion.Personalized recommendations basedon your music preferences.Unlimited access to a vast library of songs at your fingertips.Our mission is to make musican integral part of your daily life.Available on iOS and Android.Connect with other music lovers,share your favorite tracks, and discover new gems together.Users love SnapTune Here what theyre saying.Thank you for joining us on this musical adventure.Let the beats play on!'
+                '''About SnapTune
+
+SnapTune is your ultimate offline musical companion, designed to revolutionize the way you experience and manage your audio library. Dive into a seamless audio journey as SnapTune empowers you to explore and enjoy every audio file stored in your device's internal storage.
+
+Key Features:
+
+1-Audio Exploration:
+
+SnapTune grants you access to all audio files on your device, ensuring that every song and audio clip is just a tap away.
+ 
+2-Favorite Songs:
+
+Curate your own musical haven by marking your favorite songs with a simple touch. Create a personalized collection that resonates with your unique taste.
+
+3-Playlist Creation:
+
+Tailor your listening experience by crafting playlists that suit every mood and occasion. SnapTune lets you effortlessly create and add songs to playlists for a customized musical journey.
+
+4-Recently Played:
+
+Never lose track of the tunes that resonate with you the most. SnapTune keeps a record of your recently played tracks, allowing you to revisit your favorite sounds with ease.
+
+5-Audio Recording and Playback:
+
+Unleash your creativity with SnapTune's audio recording feature. Capture your own sounds, voice memos, or impromptu musical moments, and play them back whenever you desire.
+
+6-Search Songs:
+
+Finding your favorite tracks is a breeze with SnapTune's robust search functionality. Quickly locate any song within your vast music collection, making your exploration effortless.'''
+
                 ,style: GoogleFonts.abyssinicaSil(
                 fontSize: 20)),
           ),

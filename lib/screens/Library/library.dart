@@ -90,7 +90,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       );
                     },
                     child: Container(
-                      width: mediaquery.size.width * 0.4,
+                      width: mediaquery.size.width * 0.41,
                       height: mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 116, 111, 111),
@@ -118,7 +118,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           builder: (context) => const RecentlyPlayed()));
                     },
                     child: Container(
-                      width: mediaquery.size.width * 0.4,
+                      width: mediaquery.size.width * 0.41,
                       height: mediaquery.size.height * 0.17,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 116, 111, 111),
@@ -331,10 +331,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
             ),
             TextButton(
               onPressed: () {
-                addPlaylist(playListNameController.text, []);
+                if(playListNameController.text.isNotEmpty){
+                   addPlaylist(playListNameController.text, []);
                 Navigator.of(context).pop();
                 playListNameController.clear();
                 setState(() {});
+                }
               },
               child: const Text('Add'),
             )

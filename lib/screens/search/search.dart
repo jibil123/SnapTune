@@ -194,12 +194,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               icon: const Icon(Icons.more_horiz)),
                           onTap: () {
                             FocusScope.of(context).unfocus();
-                            context
+                            context 
                                 .read<SongModelProvider>()
-                                .setId(allSongs[index].id);
-                            context
-                                .read<SongModelProvider>()
-                                .updateCurrentSong(findmusic[index]);
+                                .setId(findmusic[index].id);
                             Navigator.push(
                               context,
                               MaterialPageRoute(

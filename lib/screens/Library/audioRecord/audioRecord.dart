@@ -6,6 +6,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 
+// TextEditingController textFormController = TextEditingController();
+
 class AudioRecord extends StatefulWidget {
   const AudioRecord({Key? key}) : super(key: key);
 
@@ -19,8 +21,9 @@ class _AudioRecordState extends State<AudioRecord> {
   bool isRecording = false;
   bool isPaused = false;
   String audioPath = '';
-  int durationInSeconds = 0;
   late Timer durationTimer;
+
+  ValueNotifier<int> durationNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
@@ -34,7 +37,8 @@ class _AudioRecordState extends State<AudioRecord> {
     super.dispose();
     audiorecord.dispose();
     audioPlay.dispose();
-    cancelDurationTimer(); // Ensure the duration timer is canceled when the widget is disposed.
+    cancelDurationTimer();
+    durationNotifier.dispose();
   }
 
   void toggleRecording() async {
@@ -67,9 +71,7 @@ class _AudioRecordState extends State<AudioRecord> {
 
   void startDurationTimer() {
     durationTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      setState(() {
-        durationInSeconds++;
-      });
+      durationNotifier.value++;
     });
   }
 
@@ -79,7 +81,35 @@ class _AudioRecordState extends State<AudioRecord> {
     }
   }
 
-  void stopRecording() async {
+  
+void showAlertDailoguq(BuildContext context) async {
+  await showDialog(
+      context: (context),
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text('Save Record'),
+          // content: TextFormField(
+          //   controller: textFormController,
+          //   decoration: const InputDecoration(
+          //     hintText: 'Enter audio name',
+          //   ),
+          // ),
+          actions: [
+            TextButton(onPressed: (){
+              cancelAudio();
+              Navigator.pop(context);
+            }, child: Text('Cancel')),
+            TextButton(onPressed: (){
+              addtoDB();
+              Navigator.pop(context);
+            }, child: Text('Add'))
+          ],
+        );
+      });
+}
+
+
+  void addtoDB() async {
     try {
       if (isRecording || isPaused) {
         cancelDurationTimer();
@@ -89,7 +119,24 @@ class _AudioRecordState extends State<AudioRecord> {
           isPaused = false;
           audioPath = path!;
           addAudio(audioPath);
-          durationInSeconds = 0; // reset duration timer
+          durationNotifier.value = 0; // reset duration timer
+        });
+      }
+    } catch (e) {
+      // handle error
+    }
+  }
+
+  void cancelAudio() async {
+    try {
+      if (isRecording || isPaused) {
+        cancelDurationTimer();
+        String? path = await audiorecord.stop();
+        setState(() {
+          isRecording = false;
+          isPaused = false;
+          audioPath = path!;
+          durationNotifier.value = 0; // reset duration timer
         });
       }
     } catch (e) {
@@ -144,34 +191,40 @@ class _AudioRecordState extends State<AudioRecord> {
                         ? Text(
                             isPaused ? 'Resume Recording' : 'Pause Recording')
                         : const Text('Start Recording'),
-                        style: ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.black,
-                      // Change the text color here
                     ),
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton.icon(
-                    onPressed: stopRecording,
+                    onPressed: (){
+                      showAlertDailoguq(context);
+                    },
                     icon: const Icon(Icons.stop, size: 50),
                     label: const Text('Stop'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.black,
-                      // Change the text color here
                     ),
                   ),
-                    const SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Container(
                     height: 55,
                     width: 200,
                     decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(50)),
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                     child: Center(
-                      child: Text(
-                        'Duration :  ${Duration(seconds: durationInSeconds).toString().split('.').first}',
-                        style: const TextStyle(fontSize: 18),
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: durationNotifier,
+                        builder: (context, value, child) {
+                          return Text(
+                            'Duration :  ${Duration(seconds: value).toString().split('.').first}',
+                            style: const TextStyle(fontSize: 18),
+                          );
+                        },
                       ),
                     ),
                   ),
