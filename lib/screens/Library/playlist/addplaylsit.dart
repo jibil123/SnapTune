@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
+// ignore: must_be_immutable
 class AddSongsToPlayList extends StatefulWidget {
   AddSongsToPlayList({super.key, required this.id});
   int id;

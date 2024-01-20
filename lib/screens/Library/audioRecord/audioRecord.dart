@@ -1,10 +1,12 @@
-import 'dart:async';
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:record/record.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
+import 'dart:async';
 
 // TextEditingController textFormController = TextEditingController();
 
@@ -70,12 +72,13 @@ class _AudioRecordState extends State<AudioRecord> {
   }
 
   void startDurationTimer() {
-    durationTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+    durationTimer = Timer.periodic  (Duration(seconds: 1), (Timer timer) {
       durationNotifier.value++;
     });
   }
 
   void cancelDurationTimer() {
+    // ignore: unnecessary_null_comparison
     if (durationTimer != null && durationTimer.isActive) {
       durationTimer.cancel();
     }

@@ -103,7 +103,7 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),   
               SizedBox(height:mediaquery.size.height *0.5),     
-                 const  Text('Version 1.0.1')
+                 const  Text('Version 1.11.0')
                
                 ],
               ),

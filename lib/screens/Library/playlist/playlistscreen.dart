@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
 
+// ignore: must_be_immutable
 class PlaylistSongs extends StatefulWidget {
   PlaylistSongs({super.key, required this.id});
   int id;

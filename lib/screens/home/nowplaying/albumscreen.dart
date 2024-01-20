@@ -205,10 +205,18 @@ void showAddToPlaylistBottomSheet(BuildContext context) async {
   }
 
   void playsong()async {
-    await addRecentlyPlayed(widget.allsong![widget.index].id);
+    await addRecentlyPlayed(widget.allsong[widget.index].id);
     try {
       widget.audioPlayer.setAudioSource(AudioSource.uri(
         Uri.parse(widget.songModel.uri),
+  //       tag: MediaItem(
+  //   // Specify a unique ID for each media item:
+  //   id: '${widget.songModel.id}',
+  //   // Metadata to display in the notification:
+  //   album: '${widget.songModel.name}',
+  //   title: widget.songModel.artist,
+  //   artUri: Uri.parse('https://example.com/albumart.jpg'),
+  // ),
       ));
       widget.audioPlayer.play();
       _isPlaying = true;

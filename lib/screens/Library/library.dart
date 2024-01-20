@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'package:snaptune/screens/Library/audioRecord/audioRecord.dart';

@@ -86,7 +86,7 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                     context, snapshot.data![index]);
                               });
                             },
-                            icon: Icon(Icons.more_horiz)));
+                            icon:const Icon(Icons.more_horiz)));
                   });
             }
           }),

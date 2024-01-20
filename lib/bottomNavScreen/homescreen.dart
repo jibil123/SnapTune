@@ -5,6 +5,7 @@ import 'package:snaptune/screens/search/search.dart';
 import 'package:snaptune/screens/settings/settings.dart';
 
 class HomeScreen extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   HomeScreen({super.key});
 
   @override
@@ -14,17 +15,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isContainerVisible = false;
 
+  // ignore: non_constant_identifier_names
   List  Pages = [
-    MainHomeScreen(),
-    SearchScreen(),
-    LibraryScreen(),
-    SettingScreen(),
+    const MainHomeScreen(),
+     SearchScreen(),
+    const LibraryScreen(),
+    const SettingScreen(),
   ];
   int currentindexvalue = 0;
 
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: Pages[currentindexvalue],
       bottomNavigationBar:

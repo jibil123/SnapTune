@@ -23,6 +23,7 @@ Future<void>main()async{
    if(!Hive.isAdapterRegistered(AudioModelAdapter().typeId)){
     Hive.registerAdapter(AudioModelAdapter());
   }
+  
   runApp(
     ChangeNotifierProvider(create: (context)=>SongModelProvider(),
     child: const MyApp(),)

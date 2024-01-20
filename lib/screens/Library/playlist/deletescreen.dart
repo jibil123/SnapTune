@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 
+// ignore: must_be_immutable, camel_case_types
 class deleteDailog extends StatefulWidget {
   deleteDailog({super.key, required this.songkey});
   int songkey;
@@ -9,6 +10,7 @@ class deleteDailog extends StatefulWidget {
   State<deleteDailog> createState() => _deleteDailogState();
 }
 
+// ignore: camel_case_types
 class _deleteDailogState extends State<deleteDailog> {
   @override
   Widget build(BuildContext context) {

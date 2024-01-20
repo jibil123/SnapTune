@@ -122,7 +122,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaquery = MediaQuery.of(context);
+    // ignore: unused_local_variable
+    var mediaquery = MediaQuery.of(context);
     return Scaffold(
       
       body: SafeArea(
