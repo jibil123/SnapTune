@@ -44,18 +44,19 @@ class SettingScreen extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.share,
-                          size: 40,
+                          size: 35,
                         ),
+                        SizedBox(width: 5),
                         Text(
                           ' Share',
                           style: TextStyle(
-                              fontSize: 30, fontStyle: FontStyle.italic),
+                              fontSize: 23,fontFamily: 'ABeeZee',fontWeight: FontWeight.bold, ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   InkWell(
                     onTap: () {
