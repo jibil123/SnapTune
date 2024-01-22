@@ -29,9 +29,9 @@ Future<List<MusicModel>> getAllSongs() async {
 // end of the adding
 
 
-Future<void> addAudio(String paths) async {
+Future<void> addAudio(String paths,String name) async {
   final audioDB = await Hive.openBox<AudioModel>('audio');
-  final path = AudioModel(audioPath: paths);
+  final path = AudioModel(audioPath: paths,audioName: name);
   audioDB.add(path);
 }
 
@@ -50,6 +50,13 @@ Future<void>deleteAudio(String paths)async{
   }
 }
 
+Future<void> editaudioName(
+    {required int key, required String newName}) async {
+  final playbox = await Hive.openBox<AudioModel>('audio');
+  final box = playbox.get(key);
+  box!.audioName = newName;
+  playbox.put(key, box);
+}
 
 // end of the RecordAudio
 

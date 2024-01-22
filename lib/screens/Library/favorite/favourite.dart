@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
@@ -25,7 +25,8 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
           style: TextStyle(
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
-              fontSize: 30),
+              fontSize: 30,
+              fontFamily: 'ABeeZee'),
         ),
       ),
       body: Padding(
@@ -38,7 +39,8 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
               style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  fontSize: 25),
+                  fontSize: 25,
+                  fontFamily: 'ABeeZee'),
             ),
             const Divider(),
             const SizedBox(height: 10),
@@ -51,9 +53,9 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (items.data!.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text("Add Favorite Songs",
-                              style: GoogleFonts.abyssinicaSil(fontSize: 25)),
+                              style: TextStyle(fontSize: 25)),
                         );
                       } else {
                         return ListView.builder(

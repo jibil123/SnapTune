@@ -25,7 +25,7 @@ class _AddSongsToPlayListState extends State<AddSongsToPlayList> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:const Text('Add songs to Playlist'),
+        title:const Text('Add songs to Playlist',style: TextStyle(fontFamily: 'ABeeZee',fontWeight: FontWeight.bold),),
       ),
       body: FutureBuilder(
         future: songsFuture,

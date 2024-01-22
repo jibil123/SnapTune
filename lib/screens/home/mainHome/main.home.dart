@@ -50,21 +50,23 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     padding:const EdgeInsets.only(right: 50),
                     child: Text(
                       'Enjoy  your own  music',
-                      style: GoogleFonts.pacifico(
+                      style:TextStyle(
                         fontSize: mediaquery.size.height * 0.031,
+                        fontFamily: 'Pacifico'
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: mediaquery.size.height * 0.015),
-              Padding(
-                padding:const EdgeInsets.only(left: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
                 child: Text(
                   'All Songs',
-                  style: GoogleFonts.aBeeZee(
+                  style: TextStyle(
                     fontSize: 22.5,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ABeeZee'
                   ),
                 ),
               ),

@@ -3,7 +3,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:snaptune/provider/provider.dart';
 import 'package:snaptune/screens/home/mainHome/main.home.dart';
 import 'package:snaptune/screens/home/nowplaying/albumscreen.dart';
@@ -21,9 +21,9 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Recently played',
-          style: GoogleFonts.abyssinicaSil(fontSize: 25),
+          style: TextStyle(fontSize: 25, fontFamily: 'ABeeZee'),
         ),
       ),
       body: FutureBuilder<List<MusicModel>>(
@@ -34,10 +34,10 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.data!.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text(
                   'No Recently Played Songs',
-                  style: GoogleFonts.abyssinicaSil(fontSize: 25),
+                  style: TextStyle(fontSize: 25),
                 ),
               );
             } else {
@@ -46,9 +46,9 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                   itemBuilder: (context, index) {
                     return ListTile(
                         onTap: () {
-                               context
-                          .read<SongModelProvider>()
-                          .setId(snapshot.data![index].id);
+                          context
+                              .read<SongModelProvider>()
+                              .setId(snapshot.data![index].id);
                           // ignore: avoid_single_cascade_in_expression_statements
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AlbumScreen(
@@ -86,7 +86,7 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                     context, snapshot.data![index]);
                               });
                             },
-                            icon:const Icon(Icons.more_horiz)));
+                            icon: const Icon(Icons.more_horiz)));
                   });
             }
           }),
@@ -128,17 +128,18 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                 Navigator.pop(context);
                               });
                             },
-                            icon: Row(
+                            icon: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Remove From Favourite',
-                                  style: GoogleFonts.aBeeZee(
+                                  style: TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                                      color: Colors.black,
+                                      fontFamily: 'ABeeZee'),
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.favorite,
                                   color: Colors.black,
                                   size: 35,
@@ -154,17 +155,17 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                 Navigator.pop(context);
                               });
                             },
-                            icon: Row(
+                            icon:const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Add to Favourite',
-                                  style: GoogleFonts.aBeeZee(
+                                  style: TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                                      color: Colors.black,fontFamily: 'ABeeZee'),
                                 ),
-                                const Icon(
+                                 Icon(
                                   Icons.favorite_border,
                                   color: Colors.black,
                                   size: 35,
@@ -177,15 +178,15 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                       onPressed: () {
                         showAddToPlaylistBottomSheet(context, music);
                       },
-                      icon: Row(
+                      icon:const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Add to Playlist',
-                              style: GoogleFonts.aBeeZee(
+                              style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
-                          const Icon(
+                           Icon(
                             Icons.library_add_outlined,
                             size: 35,
                             color: Colors.black,
@@ -198,15 +199,15 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                         setState(() {});
                         Navigator.pop(context);
                       },
-                      icon: Row(
+                      icon:const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Delte Recently Song',
-                              style: GoogleFonts.aBeeZee(
+                          Text('Delete Recently Song',
+                              style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                          const Icon(
+                                  color: Colors.black,fontFamily: 'ABeeZee')),
+                           Icon(
                             Icons.delete,
                             size: 35,
                             color: Colors.black,

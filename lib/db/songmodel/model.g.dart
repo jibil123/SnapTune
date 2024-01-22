@@ -166,15 +166,18 @@ class AudioModelAdapter extends TypeAdapter<AudioModel> {
     };
     return AudioModel(
       audioPath: fields[0] as String,
+      audioName: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AudioModel obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.audioPath);
+      ..write(obj.audioPath)
+      ..writeByte(1)
+      ..write(obj.audioName);
   }
 
   @override

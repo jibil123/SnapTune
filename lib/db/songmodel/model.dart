@@ -60,7 +60,10 @@ class RecentlyPlayedModel extends HiveObject{
 class AudioModel extends HiveObject{
   @HiveField(0)
   late String audioPath;
+  @HiveField(1)
+  late String audioName;
   AudioModel({
     required this.audioPath,
+    required this.audioName
   });
 }

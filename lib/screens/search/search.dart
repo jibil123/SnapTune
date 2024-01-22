@@ -139,8 +139,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: 10,
                   ),
                   Text('Search',
-                      style: GoogleFonts.aBeeZee(
-                          fontSize: 25, fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                          fontSize: 25, fontFamily: 'Pacifico')),
                 ],
               ),
             ),

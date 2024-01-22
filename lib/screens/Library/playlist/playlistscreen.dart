@@ -23,7 +23,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('playlist Screen'),
+        title: const Text('playlist Screen',style: TextStyle(fontFamily: 'ABeeZee',fontWeight: FontWeight.bold),),
         actions: [
           IconButton(
               onPressed: () {

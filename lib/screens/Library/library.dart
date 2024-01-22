@@ -8,7 +8,7 @@ import 'package:snaptune/screens/Library/favorite/favourite.dart';
 import 'package:snaptune/screens/Library/playlist/playlistscreen.dart';
 import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/screens/Library/recentlyplayed/recently.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 TextEditingController playListNameController = TextEditingController();
 
@@ -36,8 +36,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     Icons.music_note,
                     size: 40,
                   ),
-                  Text('Your Library',
-                      style: GoogleFonts.pacifico(fontSize: 25)),
+                  const Text('Your Library',
+                      style: TextStyle(fontSize: 25, fontFamily: 'Pacifico')),
                   IconButton(
                     icon: const Icon(
                       Icons.add,
@@ -62,17 +62,19 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     color: const Color.fromARGB(255, 136, 122, 122),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 5),
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 10, top: 5),
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(Icons.record_voice_over_sharp, size: 80),
+                          Icon(Icons.record_voice_over_sharp, size: 80),
                           Text('Voice Recorder ',
-                              style: GoogleFonts.aBeeZee(
-                                  fontSize: 35, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'ABeeZee')),
                         ],
                       ),
                     ),
@@ -80,7 +82,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -105,15 +108,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           children: [
                             Icon(Icons.favorite,
                                 size: mediaquery.size.height * 0.07),
-                            Text('Favorite Songs',
-                                style: GoogleFonts.aBeeZee(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                            const Text('Favorite Songs',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'ABeeZee')),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  // SizedBox(width: mediaquery.size.width * 0.06), 
+                  // SizedBox(width: mediaquery.size.width * 0.06),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -126,15 +131,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         color: const Color.fromARGB(255, 116, 111, 111),
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
+                      child:const Padding(
+                        padding:  EdgeInsets.only(left: 10, top: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.music_note_outlined, size: 60),
+                             Icon(Icons.music_note_outlined, size: 60),
                             Text('Recently Played',
-                                style: GoogleFonts.aBeeZee(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'ABeeZee')),
                           ],
                         ),
                       ),
@@ -164,7 +171,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           crossAxisCount: 2,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
-                          childAspectRatio: 3/2,
+                          childAspectRatio: 3 / 2,
                         ),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
@@ -189,107 +196,106 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Icon(
-                                          Icons.queue_music_rounded,
-                                          size: 60,
-                                        ),                                    
-                                        PopupMenuButton(
-                                          color: Colors.black38,
-                                          icon: const Icon(Icons.more_vert),
-                                          itemBuilder: (context) {
-                                            return [
-                                              PopupMenuItem(
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Icon(
+                                            Icons.queue_music_rounded,
+                                            size: 60,
+                                          ),
+                                          PopupMenuButton(
+                                            color: Colors.black38,
+                                            icon: const Icon(Icons.more_vert),
+                                            itemBuilder: (context) {
+                                              return [
+                                                PopupMenuItem(
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (i) {
+                                                            playListNameController
+                                                                    .text =
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .name;
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                  'Change Playlist name'),
+                                                              content:
+                                                                  TextField(
+                                                                controller:
+                                                                    playListNameController,
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                        hintText:
+                                                                            'Enter new name'),
+                                                              ),
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      // ignore: prefer_is_not_empty
+                                                                      if (!playListNameController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        editPlaylistName(
+                                                                            key:
+                                                                                snapshot.data![index].key,
+                                                                            newName: playListNameController.text);
+                                                                        playListNameController
+                                                                            .clear();
+                                                                        setState(
+                                                                            () {});
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        'Change name')),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      playListNameController
+                                                                          .clear();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        'Cancel'))
+                                                              ],
+                                                            );
+                                                          });
+                                                    },
+                                                    child: const Text('Edit')),
+                                                PopupMenuItem(
                                                   onTap: () {
                                                     showDialog(
                                                         context: context,
                                                         builder: (i) {
-                                                          playListNameController
-                                                                  .text =
-                                                              snapshot
+                                                          return deleteDailog(
+                                                              songkey: snapshot
                                                                   .data![index]
-                                                                  .name;
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Change Playlist name'),
-                                                            content: TextField(
-                                                              controller:
-                                                                  playListNameController,
-                                                              decoration:
-                                                                  const InputDecoration(
-                                                                      hintText:
-                                                                          'Enter new name'),
-                                                            ),
-                                                            actions: [
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    // ignore: prefer_is_not_empty
-                                                                    if (!playListNameController
-                                                                        .text
-                                                                        .isEmpty) {
-                                                                      editPlaylistName(
-                                                                          key: snapshot
-                                                                              .data![
-                                                                                  index]
-                                                                              .key,
-                                                                          newName:
-                                                                              playListNameController.text);
-                                                                      playListNameController
-                                                                          .clear();
-                                                                      setState(
-                                                                          () {});
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    }
-                                                                  },
-                                                                  child: const Text(
-                                                                      'Change name')),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    playListNameController
-                                                                        .clear();
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: const Text(
-                                                                      'Cancel'))
-                                                            ],
-                                                          );
-                                                        });
+                                                                  .key);
+                                                        }).then((value) {
+                                                      setState(() {});
+                                                    });
                                                   },
-                                                  child: const Text('Edit')),
-                                              PopupMenuItem(
-                                                onTap: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (i) {
-                                                        return deleteDailog(
-                                                            songkey: snapshot
-                                                                .data![index]
-                                                                .key);
-                                                      }).then((value) {
-                                                    setState(() {});
-                                                  });
-                                                },
-                                                child: const Text('Dlete'),
-                                              )
-                                            ];
-                                          },
-                                        ),
-                                      ]
-                                    ),
+                                                  child: const Text('Dlete'),
+                                                )
+                                              ];
+                                            },
+                                          ),
+                                        ]),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                           left: 5),
+                                      padding: const EdgeInsets.only(left: 5),
                                       child: Text(item.name,
-                                      overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.aBeeZee(
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
                                               fontSize: mediaquery.size.height *
                                                   0.024,
-                                              fontWeight: FontWeight.bold)),
+                                              fontWeight: FontWeight.bold,fontFamily: 'ABeeZee')),
                                     ),
                                   ],
                                 ),
@@ -333,11 +339,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
             ),
             TextButton(
               onPressed: () {
-                if(playListNameController.text.isNotEmpty){
-                   addPlaylist(playListNameController.text, []);
-                Navigator.of(context).pop();
-                playListNameController.clear();
-                setState(() {});
+                if (playListNameController.text.isNotEmpty) {
+                  addPlaylist(playListNameController.text, []);
+                  Navigator.of(context).pop();
+                  playListNameController.clear();
+                  setState(() {});
                 }
               },
               child: const Text('Add'),

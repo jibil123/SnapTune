@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:snaptune/screens/settings/screens/about.dart';
 import 'package:snaptune/screens/settings/screens/privacy.dart';
 import 'package:snaptune/screens/settings/screens/terms.dart';
@@ -15,19 +15,17 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding:const EdgeInsets.only(top: 10, left: 15, right: 15),
+        padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
         child: Column(
           children: [
-             Row(
+            const Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.music_note,
                   size: 80,
                 ),
-                Text(
-                  'Settings',
-                 style: GoogleFonts.pacifico(fontSize: 50) 
-                ),
+                Text('Settings',
+                    style: TextStyle(fontSize: 50, fontFamily: 'Pacifico')),
               ],
             ),
             const Divider(),
@@ -38,77 +36,88 @@ class SettingScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 15),
               child: Column(
                 children: [
-                  // Row(
-              //   children: [
-              //     Icon(Icons.share,size: 40,),
-              //     Text(' Share',style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic),),
-              //   ],
-              // ),
-              // SizedBox(height: 20,),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
-                    return const TermsConditions();
-                  }
-                 )
-                );
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.policy_outlined, size: 35),
-                    const SizedBox(width: 10),
-                    Text('Terms & Conditions',
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 23, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
                   InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
-                    return const PrivacyPolicy();
-                  }
-                 )
-                );
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.private_connectivity_outlined, size: 35),
-                    const SizedBox(width: 10),
-                    Text('Privacy & policy',
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 23, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx){
-                    return  const AboutScreen();
-                  }
-                 )
-                );
-                },
-                child: Row(
-                  children: [
-                    const  Icon(Icons.info, size: 35),
-                    const SizedBox(width: 10),
-                    Text('About',
-                        style: GoogleFonts.aBeeZee(
-                            fontSize: 23, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),   
-              SizedBox(height:mediaquery.size.height *0.5),     
-                 const  Text('Version 1.11.0')
-               
+                    onTap: () {
+                      Share.share('Get SnapTune from the Amazon Appstore. Check it out - https://www.amazon.com/dp/B0CSWNC3H3/ref=apps_sf_sta');
+                    },
+                    child:const Row(
+                      children: [
+                        Icon(
+                          Icons.share,
+                          size: 40,
+                        ),
+                        Text(
+                          ' Share',
+                          style: TextStyle(
+                              fontSize: 30, fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                        return const TermsConditions();
+                      }));
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.policy_outlined, size: 35),
+                        SizedBox(width: 10),
+                        Text('Terms & Conditions',
+                            style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'ABeeZee')),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                        return const PrivacyPolicy();
+                      }));
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.private_connectivity_outlined, size: 35),
+                        SizedBox(width: 10),
+                        Text('Privacy & policy',
+                            style: TextStyle(
+                                fontSize: 23,
+                                fontFamily: 'ABeeZee',
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                        return const AboutScreen();
+                      }));
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.info, size: 35),
+                        SizedBox(width: 10),
+                        Text('About',
+                            style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'ABeeZee')),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: mediaquery.size.height * 0.5),
+                  const Text('Version 1.11.0')
                 ],
               ),
             ),
-            
           ],
         ),
       )),

@@ -1,5 +1,4 @@
 // ignore_for_file: file_names, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:record/record.dart';
@@ -8,7 +7,7 @@ import 'package:snaptune/db/db.functions/functions.dart';
 import 'package:snaptune/db/songmodel/model.dart';
 import 'dart:async';
 
-// TextEditingController textFormController = TextEditingController();
+TextEditingController audioNameController = TextEditingController();
 
 class AudioRecord extends StatefulWidget {
   const AudioRecord({Key? key}) : super(key: key);
@@ -26,6 +25,11 @@ class _AudioRecordState extends State<AudioRecord> {
   late Timer durationTimer;
 
   ValueNotifier<int> durationNotifier = ValueNotifier<int>(0);
+
+  _AudioRecordState() {
+    // Initialize durationTimer with a default Timer instance
+    durationTimer = Timer(Duration(seconds: 0), () {});
+  }
 
   @override
   void initState() {
@@ -72,47 +76,52 @@ class _AudioRecordState extends State<AudioRecord> {
   }
 
   void startDurationTimer() {
-    durationTimer = Timer.periodic  (Duration(seconds: 1), (Timer timer) {
+    durationTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       durationNotifier.value++;
     });
   }
 
   void cancelDurationTimer() {
-    // ignore: unnecessary_null_comparison
     if (durationTimer != null && durationTimer.isActive) {
       durationTimer.cancel();
     }
   }
 
-  
-void showAlertDailoguq(BuildContext context) async {
-  await showDialog(
-      context: (context),
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text('Save Record'),
-          // content: TextFormField(
-          //   controller: textFormController,
-          //   decoration: const InputDecoration(
-          //     hintText: 'Enter audio name',
-          //   ),
-          // ),
-          actions: [
-            TextButton(onPressed: (){
-              cancelAudio();
-              Navigator.pop(context);
-            }, child: Text('Cancel')),
-            TextButton(onPressed: (){
-              addtoDB();
-              Navigator.pop(context);
-            }, child: Text('Add'))
-          ],
-        );
-      });
-}
+  void showAlertDailoguq(BuildContext context) async {
+    await showDialog(
+        context: (context),
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text('Save Record'),
+            content: TextFormField(
+              controller: audioNameController,
+              decoration: InputDecoration(
+                hintText: 'Enter audio name',
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    cancelAudio();
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancel')),
+              TextButton(
+                  onPressed: () {
+                    if (audioNameController.text.isNotEmpty) {
+                      addtoDB(audioNameController.text);
+                      Navigator.of(context).pop();
+                      audioNameController.clear();
+                      setState(() {});
+                    }
+                  },
+                  child: Text('Add'))
+            ],
+          );
+        });
+  }
 
-
-  void addtoDB() async {
+  void addtoDB(String audioName) async {
     try {
       if (isRecording || isPaused) {
         cancelDurationTimer();
@@ -121,7 +130,7 @@ void showAlertDailoguq(BuildContext context) async {
           isRecording = false;
           isPaused = false;
           audioPath = path!;
-          addAudio(audioPath);
+          addAudio(audioPath, audioName);
           durationNotifier.value = 0; // reset duration timer
         });
       }
@@ -165,10 +174,8 @@ void showAlertDailoguq(BuildContext context) async {
         centerTitle: true,
         title: Text(
           'Audio Recording',
-          style: GoogleFonts.aBeeZee(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'ABeeZee'),
         ),
       ),
       body: Column(
@@ -201,7 +208,7 @@ void showAlertDailoguq(BuildContext context) async {
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton.icon(
-                    onPressed: (){
+                    onPressed: () {
                       showAlertDailoguq(context);
                     },
                     icon: const Icon(Icons.stop, size: 50),
@@ -239,10 +246,10 @@ void showAlertDailoguq(BuildContext context) async {
             padding: const EdgeInsets.only(top: 15, left: 20),
             child: Text(
               'Recorded Audios',
-              style: GoogleFonts.aBeeZee(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ABeeZee'),
             ),
           ),
           const Divider(),
@@ -274,19 +281,97 @@ void showAlertDailoguq(BuildContext context) async {
                             image:
                                 AssetImage('assets/images/leadingImage.png')),
                         title: Text(
-                          'Recorded Audio ${index + 1}',
+                          snapshot.data![index].audioName,
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: const Text('<unknown>'),
                         onTap: () {
                           playAudioRecorded(snapshot.data![index].audioPath);
                         },
-                        trailing: IconButton(
-                          onPressed: () {
-                            deleteAudio(snapshot.data![index].audioPath);
-                            setState(() {});
+                        trailing: PopupMenuButton(
+                          color: Colors.black38,
+                          icon: const Icon(Icons.more_vert),
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (i) {
+                                        audioNameController.text =
+                                            snapshot.data![index].audioName;
+                                        return AlertDialog(
+                                          title: const Text(
+                                              'Change Playlist name'),
+                                          content: TextField(
+                                            controller: audioNameController,
+                                            decoration: const InputDecoration(
+                                                hintText: 'Enter new name'),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                if (!audioNameController
+                                                    .text.isEmpty) {
+                                                  editaudioName(
+                                                      key: snapshot
+                                                          .data![index].key,
+                                                      newName:
+                                                          audioNameController
+                                                              .text);
+                                                  audioNameController.clear();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                }
+                                              },
+                                              child: const Text('Change name'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                audioNameController.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                                child: const Text('Edit'),
+                              ),
+                              PopupMenuItem(
+                                child: Text('Delete'),
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (i) {
+                                        return AlertDialog(
+                                          title: Text('Delete Audio'),
+                                          content: Text(
+                                              'Are you sure to delete this audio'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                deleteAudio(snapshot
+                                                    .data![index].audioPath);
+                                                setState(() {});
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Delete'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                              ),
+                            ];
                           },
-                          icon: const Icon(Icons.delete),
                         ),
                       );
                     },
