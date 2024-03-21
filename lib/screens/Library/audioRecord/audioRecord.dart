@@ -82,7 +82,7 @@ class _AudioRecordState extends State<AudioRecord> {
   }
 
   void cancelDurationTimer() {
-    if (durationTimer != null && durationTimer.isActive) {
+    if (durationTimer.isActive) {
       durationTimer.cancel();
     }
   }
@@ -311,8 +311,8 @@ class _AudioRecordState extends State<AudioRecord> {
                                           actions: [
                                             TextButton(
                                               onPressed: () {
-                                                if (!audioNameController
-                                                    .text.isEmpty) {
+                                                if (audioNameController
+                                                    .text.isNotEmpty) {
                                                   editaudioName(
                                                       key: snapshot
                                                           .data![index].key,

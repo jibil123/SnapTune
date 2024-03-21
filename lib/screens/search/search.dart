@@ -130,12 +130,12 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 5),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, top: 5),
               child: Row(
                 children: [
-                  const Icon(Icons.music_note, size: 40),
-                  const SizedBox(
+                  Icon(Icons.music_note, size: 40),
+                  SizedBox(
                     width: 10,
                   ),
                   Text('Search',
