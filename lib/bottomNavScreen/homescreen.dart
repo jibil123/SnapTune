@@ -18,12 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: non_constant_identifier_names
   List  Pages = [
     const MainHomeScreen(),
-     SearchScreen(),
+    SearchScreen(),
     const LibraryScreen(),
     const SettingScreen(),
   ];
   int currentindexvalue = 0;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.black),
             ],
           ),
-        // ],
       );
-    // );
   }
 }

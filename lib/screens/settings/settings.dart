@@ -46,9 +46,9 @@ class SettingScreen extends StatelessWidget {
                           Icons.share,
                           size: 35,
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: 10),
                         Text(
-                          ' Share',
+                          'Share',
                           style: TextStyle(
                               fontSize: 23,fontFamily: 'ABeeZee',fontWeight: FontWeight.bold, ),
                         ),
